@@ -1,16 +1,35 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
-import Menu from './components/Menu.tsx'
 import ForYou from './components/ForYou.tsx'
+import Auth from './components/Auth.tsx'
+import Login from './components/Login.tsx'
+import Register from './components/Register.tsx'
+
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
 
 function App() {
+  const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+    const token = localStorage.getItem("token")
+    if (!token)
+      return <Navigate to="/auth" />
+
+    return children
+  }
+
   return (
     <div className="w-screen h-screen flex justify-center">
       <div className="w-full max-w-md h-full border-1 border-gray-100">
-        <Menu />
-
         <Routes>
-          <Route path='/' element={<ForYou />}></Route>
+          <Route path='/' element={
+            <ProtectedRoute>
+              <ForYou />
+            </ProtectedRoute>
+          }></Route>
+          <Route path='/auth' element={<Auth />}></Route>
+          <Route path='/auth/login' element={<Login />}></Route>
+          <Route path='/auth/register' element={<Register />}></Route>
         </Routes>
       </div>
     </div>
