@@ -6,7 +6,7 @@ import ForYou from './components/ForYou.tsx'
 
 function App() {
   return (
-    <div>
+    <div className="w-screen h-screen">
       <Top />
       <Feed />
 
