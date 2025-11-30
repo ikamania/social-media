@@ -6,3 +6,10 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
