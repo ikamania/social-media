@@ -1,5 +1,5 @@
-import Top from './menu/Top.tsx'
-import Feed from './menu/Feed.tsx'
+import Top from '../components/menu/Top.tsx'
+import Feed from '../components/menu/Feed.tsx'
 
 const Menu = () => {
   return (

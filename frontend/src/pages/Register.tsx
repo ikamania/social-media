@@ -1,6 +1,6 @@
-import X from "./auth/X.tsx"
-import AuthBox from "./auth/AuthBox.tsx"
-import Input from "./auth/Input.tsx"
+import X from "../components/auth/X.tsx"
+import AuthBox from "../components/auth/AuthBox.tsx"
+import Input from "../components/auth/Input.tsx"
 
 const Register = () => {
   return (

@@ -1,11 +1,11 @@
 import { FcGoogle } from "react-icons/fc"
 import { FaApple } from "react-icons/fa"
 
-import X from "./auth/X.tsx"
-import AuthBox from "./auth/AuthBox.tsx"
-import Input from "./auth/Input.tsx"
-import Or from "./auth/Or.tsx"
-import Link from "./auth/Link.tsx"
+import X from "../components/auth/X.tsx"
+import AuthBox from "../components/auth/AuthBox.tsx"
+import Input from "../components/auth/Input.tsx"
+import Or from "../components/auth/Or.tsx"
+import Link from "../components/auth/Link.tsx"
 
 const Login = () => {
   return (

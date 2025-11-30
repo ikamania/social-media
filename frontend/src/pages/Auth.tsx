@@ -1,6 +1,6 @@
-import AuthBox from "./auth/AuthBox"
-import Or from "./auth/Or.tsx"
-import Link from "./auth/Link.tsx"
+import AuthBox from "../components/auth/AuthBox"
+import Or from "../components/auth/Or.tsx"
+import Link from "../components/auth/Link.tsx"
 
 const Auth = () => {
 
