@@ -1,14 +1,18 @@
 interface InputProps {
   type: string
   placeholder?: string
+  value?: string
+  onChange?: (value: string) => void
 }
 
-const Input = ({ type, placeholder }: InputProps) => {
+const Input = ({ type, placeholder, value, onChange }: InputProps) => {
   return (
     <div className="relative py-[.5rem]">
       <input
         className="peer w-full h-[3rem] p-[.5rem] pt-[1rem] border-1 border-gray-200"
         type={type} placeholder=""
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
       />
       <label
         className="

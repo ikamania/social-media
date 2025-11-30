@@ -6,8 +6,18 @@ import AuthBox from "../components/auth/AuthBox.tsx"
 import Input from "../components/auth/Input.tsx"
 import Or from "../components/auth/Or.tsx"
 import Link from "../components/auth/Link.tsx"
+import { useAuth } from "../context/AuthContext.tsx"
+import { useState } from "react"
 
 const Login = () => {
+  const { login } = useAuth()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const handleLogin = () => {
+    login(email, password)
+  }
+
   return (
     <div className="w-full h-full">
       <X />
@@ -18,9 +28,11 @@ const Login = () => {
         <AuthBox text="Sign in with Apple" icon={FaApple} to="/auth/login/" css="text-gray-500" />
         <Or />
         <div className="px-[1.3rem] mt-[1rem]">
-          <Input type="text" placeholder="Email or phone" />
-          <Input type="password" placeholder="Password" />
-          <AuthBox text="Next" to="/auth/" css="text-white bg-black" />
+          <Input type="text" placeholder="Email" value={email} onChange={setEmail} />
+          <Input type="password" placeholder="Password" value={password} onChange={setPassword} />
+          <button className="w-full" onClick={handleLogin}>
+            <AuthBox text="Next" to="/auth/" css="text-white bg-black" />
+          </button>
         </div>
         <p className="text-[.9rem] text-gray-400 px-[.5rem] pt-[1rem]">
           Don't have an account? <Link text="Sign up" to="/auth/register" />

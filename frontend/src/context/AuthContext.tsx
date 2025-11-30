@@ -50,7 +50,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         showAlert("success", "signed up")
         navigate("/auth/login")
       } else {
-        showAlert("error", "error")
+        const errorText = await response.text()
+
+        showAlert("error", errorText)
       }
     } catch {
       showAlert("error", "internal error")
@@ -97,5 +99,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 }
 
 export function useAuth() {
-  return useContext(AuthContext)
+  const context = useContext(AuthContext)
+
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
+  return context;
 }
