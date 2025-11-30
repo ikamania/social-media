@@ -1,9 +1,10 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-import ForYou from './components/ForYou.tsx'
-import Auth from './components/Auth.tsx'
-import Login from './components/Login.tsx'
-import Register from './components/Register.tsx'
+import ForYou from './pages/ForYou.tsx'
+import Auth from './pages/Auth.tsx'
+import Login from './pages/Login.tsx'
+import Register from './pages/Register.tsx'
+import { AuthProvider } from './context/AuthContext.tsx'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -19,20 +20,22 @@ function App() {
   }
 
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="w-full max-w-md h-full border-1 border-gray-100">
-        <Routes>
-          <Route path='/' element={
-            <ProtectedRoute>
-              <ForYou />
-            </ProtectedRoute>
-          }></Route>
-          <Route path='/auth' element={<Auth />}></Route>
-          <Route path='/auth/login' element={<Login />}></Route>
-          <Route path='/auth/register' element={<Register />}></Route>
-        </Routes>
+    <AuthProvider>
+      <div className="w-screen h-screen flex justify-center">
+        <div className="w-full max-w-md h-full border-1 border-gray-100">
+          <Routes>
+            <Route path='/' element={
+              <ProtectedRoute>
+                <ForYou />
+              </ProtectedRoute>
+            }></Route>
+            <Route path='/auth' element={<Auth />}></Route>
+            <Route path='/auth/login' element={<Login />}></Route>
+            <Route path='/auth/register' element={<Register />}></Route>
+          </Routes>
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   )
 }
 

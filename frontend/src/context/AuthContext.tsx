@@ -1,0 +1,101 @@
+import { createContext, useContext, useState, type ReactNode } from "react"
+import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
+
+interface AuthContextType {
+  token: any | null
+  setToken: (token: any | null) => void
+  login: (email: string, password: string) => Promise<void>
+  logout: () => void
+  register: (username: string, email: string, password: string) => Promise<void>
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+export const url = "http://localhost:8000"
+
+const showAlert = (icon: "success" | "error", text: string) => {
+  Swal.fire({ icon, text, timer: 1500 })
+}
+
+interface AuthProviderProps {
+  children: ReactNode
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [token, setToken] = useState(() => {
+    const stored = localStorage.getItem("token")
+
+    return stored ? JSON.parse(stored) : null
+  })
+  const navigate = useNavigate()
+
+  const register = async (username: string, email: string, password: string) => {
+    if (!username || !email || !password) {
+      showAlert("error", "fill out all forms")
+      return
+    }
+
+    try {
+      const response = await fetch(`${url}/users/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+        })
+      })
+      if (response.ok) {
+        showAlert("success", "signed up")
+        navigate("/auth/login")
+      } else {
+        showAlert("error", "error")
+      }
+    } catch {
+      showAlert("error", "internal error")
+    }
+  }
+
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await fetch(`${url}/api/token/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setToken(data)
+
+        localStorage.setItem("token", JSON.stringify(data))
+
+        showAlert("success", "signed in")
+        navigate("/")
+      } else {
+        showAlert("error", "invalid creadentials")
+      }
+    } catch (error) {
+      showAlert("error", "internal error")
+    }
+  }
+
+  const logout = () => {
+    setToken(null)
+    localStorage.removeItem("token")
+
+    showAlert("success", "logged out")
+    navigate("/")
+  }
+
+  return (
+    <AuthContext.Provider value={{ token, setToken, login, logout, register }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export function useAuth() {
+  return useContext(AuthContext)
+}
