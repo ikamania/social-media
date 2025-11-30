@@ -1,16 +1,8 @@
 import AuthBox from "./auth/AuthBox"
 import Or from "./auth/Or.tsx"
-
-interface LinkProps {
-  text: string
-}
+import Link from "./auth/Link.tsx"
 
 const Auth = () => {
-  const Link = ({ text }: LinkProps) => {
-    return (
-      <a className="text-blue-700">{text}</a>
-    )
-  }
 
   return (
     <div className="w-full h-full flex justify-center pt-[5rem]">

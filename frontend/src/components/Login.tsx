@@ -5,6 +5,7 @@ import X from "./auth/X.tsx"
 import AuthBox from "./auth/AuthBox.tsx"
 import Input from "./auth/Input.tsx"
 import Or from "./auth/Or.tsx"
+import Link from "./auth/Link.tsx"
 
 const Login = () => {
   return (
@@ -21,6 +22,9 @@ const Login = () => {
           <Input type="password" placeholder="Password" />
           <AuthBox text="Next" to="/auth/" css="text-white bg-black" />
         </div>
+        <p className="text-[.9rem] text-gray-400 px-[.5rem] pt-[1rem]">
+          Don't have an account? <Link text="Sign up" to="/auth/register" />
+        </p>
       </div>
 
     </div>
