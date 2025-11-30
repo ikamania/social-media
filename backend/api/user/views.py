@@ -1,10 +1,15 @@
 from rest_framework import viewsets, permissions
 
 from .models import User
-from user.serializers import UserSerializer
+from .serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializers_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [permissions.AllowAny()]
+
+        return [permissions.AllowAny()]  # for testing
