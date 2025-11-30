@@ -1,7 +1,7 @@
 import { NavLink, type NavLinkProps } from "react-router-dom"
 
 interface ActiveLinkProps extends NavLinkProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const ActiveLink = ({ children, ...props }: ActiveLinkProps) => {

@@ -6,7 +6,7 @@ import Login from './components/Login.tsx'
 import Register from './components/Register.tsx'
 
 interface ProtectedRouteProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 function App() {

@@ -1,7 +1,8 @@
 import AuthBox from "./auth/AuthBox"
+import Or from "./auth/Or.tsx"
 
 interface LinkProps {
-  text: string;
+  text: string
 }
 
 const Auth = () => {
@@ -18,10 +19,7 @@ const Auth = () => {
         <p className="text-[1.5rem] font-bold">Join today.</p>
 
         <AuthBox to="/auth/login" text="Sign in" />
-        <div className="w-full flex justify-center items-center relative">
-          <p className="relative w-[3rem] text-center font-bold bg-white z-10">OR</p>
-          <span className="absolute w-full h-[.1rem] bg-gray-100"></span>
-        </div>
+        <Or />
         <AuthBox to="/auth/register" text="Create account" css="bg-black text-white" />
         <p className="text-[.7rem] text-gray-400 px-[.5rem]">
           By signing up, you agree to the <Link text="Terms of Service " />
