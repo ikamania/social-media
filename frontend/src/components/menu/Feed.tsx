@@ -25,7 +25,7 @@ const ActiveLink = ({ children, ...props }: ActiveLinkProps) => {
 
 const Feed = () => {
   return (
-    <div className="w-full h-[3rem] flex pb-[.1rem] border-b-1 border-gray-100">
+    <div className="w-full h-[3.5rem] flex pb-[.1rem] border-b-1 border-gray-100">
       <ActiveLink to="/">For you</ActiveLink>
       <ActiveLink to="/following">Following</ActiveLink>
     </div>
