@@ -8,6 +8,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>
   logout: () => void
   register: (username: string, email: string, password: string) => Promise<void>
+  validToken: () => Promise<boolean>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -91,8 +92,57 @@ export function AuthProvider({ children }: AuthProviderProps) {
     navigate("/")
   }
 
+  const validToken = async (): Promise<boolean> => {
+    if (!token?.access)
+      return false
+
+    try {
+      const response = await fetch(`${url}/api/token/verify/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token: token?.access })
+      })
+      if (response.ok) {
+        return true
+      }
+
+      if (token.refresh) {
+        const response = await fetch(`${url}/api/token/refresh/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ refresh: token.refresh })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+
+          const newToken = { ...token, access: data.access }
+
+          setToken(newToken)
+          localStorage.setItem("token", JSON.stringify(newToken))
+
+          return true
+        }
+      }
+
+      setToken(null)
+      localStorage.removeItem("token")
+
+      return false
+
+    } catch (error) {
+      showAlert("error", "internal error")
+
+      return false
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ token, setToken, login, logout, register }}>
+    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken }}>
       {children}
     </AuthContext.Provider>
   )
