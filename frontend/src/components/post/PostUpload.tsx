@@ -1,9 +1,9 @@
 import ProfilePicture from "./ProfilePicture"
 import { FaRegImage } from "react-icons/fa6"
 import { FaRegSmileBeam } from "react-icons/fa"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
-import createPost from "../../service/postService"
+import { createPost } from "../../service/postService"
 import showAlert from "../showAlert"
 
 const PostUpload = () => {
@@ -48,7 +48,7 @@ const PostUpload = () => {
   }
 
   return (
-    <div className="w-full p-[1rem] flex">
+    <div className="w-full p-[1rem] flex border-b-1 border-gray-100">
       <ProfilePicture />
 
       <div className="w-full">

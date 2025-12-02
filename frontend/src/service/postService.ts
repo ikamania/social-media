@@ -1,8 +1,8 @@
-import ShowAlert from "../components/showAlert.ts"
+import showAlert from "../components/showAlert.ts"
 
 const url = "http://localhost:8000"
 
-const createPost = async (tokenAccess: string, content: string, image?: File) => {
+export const createPost = async (tokenAccess: string, content: string, image?: File) => {
   const form = new FormData()
 
   form.append("content", content)
@@ -18,9 +18,26 @@ const createPost = async (tokenAccess: string, content: string, image?: File) =>
   })
 
   if (response.ok)
-    ShowAlert("success", "published")
+    showAlert("success", "published")
   else
-    ShowAlert("error", "could not publish")
+    showAlert("error", "could not publish")
 }
 
-export default createPost 
+export const fetchPosts = async (tokenAccess: string) => {
+  try {
+    const response = await fetch(`${url}/posts/`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${tokenAccess}`,
+        "Content-Type": "application/json",
+      },
+    })
+    if (!response.ok)
+      showAlert("error", "failed to fetch posts")
+
+    const data = await response.json()
+    return data
+  } catch {
+    showAlert("error", "internale error")
+  }
+}

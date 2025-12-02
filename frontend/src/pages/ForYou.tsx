@@ -1,11 +1,41 @@
+import { useEffect, useState } from "react"
 import Menu from "./Menu"
 import Post from "../components/post/Post"
+import { fetchPosts } from "../service/postService"
+import { useAuth } from "../context/AuthContext"
+import ShowAlert from "../components/showAlert"
 
 const ForYouFeed = () => {
+  const { token } = useAuth()
+  const [posts, setPosts] = useState<any[]>([])
+
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const data = await fetchPosts(token.access)
+
+        setPosts(data)
+      } catch {
+        ShowAlert("error", "internal error")
+      }
+    }
+
+    if (token?.access)
+      getPosts()
+  }, [token])
+  console.log(posts)
+
   return (
     <>
       <Menu />
-      <Post email="ika@gmail.com" text="If your original image is huge (e.g., 2000×2000px) and you shrink it to 32×32px, the browser is resampling it, which can look blurry. A better approach is to pre-resize it to roughly the size you need." />
+      {posts.map(post => (
+        <Post
+          key={post.id}
+          user={post.user}
+          text={post.content}
+          image={post.image}
+        />
+      ))}
     </>
   )
 }

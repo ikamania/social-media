@@ -7,23 +7,28 @@ import { FaRegHeart } from "react-icons/fa"
 import Reaction from "./Reaction.tsx"
 
 interface PostProps {
-  email: string,
+  user: {
+    id: number,
+    username: string,
+    email: string,
+  },
   text: string,
-  photo?: string,
+  image?: string,
 }
 
-const Post = ({ email, text, photo }: PostProps) => {
+const Post = ({ user, text, image }: PostProps) => {
   return (
     <div className="
-      w-full p-[1rem] flex border-b-1 border-t-1 border-gray-100
+      w-full p-[1rem] flex border-b-1 border-gray-100
+      hover:bg-gray-50 cursor-pointer
     ">
       <ProfilePicture />
 
       <div className="flex-col">
         <div className="mb-[.5rem]">
           <div className="flex gap-[.5rem] text-[.9rem]">
-            <p className="font-bold">Trae Young</p>
-            <p className="text-gray-500">@TheTraeYoung</p>
+            <p className="font-bold">{user.username}</p>
+            <p className="text-gray-500">@{user.email}</p>
           </div>
           <div>
             <p className="text-[.9rem] my-1">
@@ -33,7 +38,9 @@ const Post = ({ email, text, photo }: PostProps) => {
         </div>
 
         <div className="flex justify-end pt-1">
-          <img src={testphoto1} alt="photo here" className="w-[30rem] object-cover rounded-2xl" />
+          {image && (
+            <img src={image} alt="photo here" className="w-[30rem] object-cover rounded-2xl" />
+          )}
         </div>
 
         <div className="mt-2 text-gray-500 flex gap-[3rem]">

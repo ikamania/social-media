@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import Post
+from user.serializers import UserSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Post
