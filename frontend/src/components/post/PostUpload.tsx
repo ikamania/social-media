@@ -74,7 +74,7 @@ const PostUpload = () => {
                 className="
                 absolute top-1 right-2 text-white bg-black/50
                 rounded-full w-[1.5rem] h-[1.5rem] flex
-                items-center justify-center text-[1.5rem]
+                items-center justify-center text-[1.5rem] cursor-pointer
               "
               >
                 ×

@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions
-from .models import Post
+from .models import Post, Like
 from .serializers import PostSerializer
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -10,3 +12,16 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    @action(detail=True, methods=["POST"])
+    def like(self, request, pk=None):
+        post = self.get_object()
+
+        like, created = Like.objects.get_or_create(
+            user=request.user,
+            post=post,
+        )
+        if not created:
+            like.delete()
+            return Response({"liked": False}, status=200)
+        return Response({"liked": True}, status=201)

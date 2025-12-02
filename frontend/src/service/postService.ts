@@ -36,8 +36,22 @@ export const fetchPosts = async (tokenAccess: string) => {
       showAlert("error", "failed to fetch posts")
 
     const data = await response.json()
+    console.log(data)
     return data
   } catch {
     showAlert("error", "internale error")
   }
+}
+
+export const toggleLike = async (postId: number, tokenAccess: string) => {
+  const response = await fetch(`${url}/posts/${postId}/like/`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${tokenAccess}`,
+      "Content-Type": "application/json",
+    },
+  })
+  const data = await response.json()
+
+  return data
 }

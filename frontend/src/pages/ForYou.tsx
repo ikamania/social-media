@@ -31,9 +31,7 @@ const ForYouFeed = () => {
       {posts.map(post => (
         <Post
           key={post.id}
-          user={post.user}
-          text={post.content}
-          image={post.image}
+          post={post}
         />
       ))}
     </>
