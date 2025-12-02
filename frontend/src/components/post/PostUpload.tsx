@@ -62,12 +62,23 @@ const PostUpload = () => {
             w-full overflow-hidden pt-[.5rem] text-gray-800
             "/>
           {selectedImage && (
-            <div>
+            <div className="relative w-fit">
               <img
                 src={URL.createObjectURL(selectedImage)}
                 alt="IMG"
                 className="object-cover rounded-2xl mb-[.5rem]"
               />
+              <button
+                type="button"
+                onClick={() => setSelectedImage(null)}
+                className="
+                absolute top-1 right-2 text-white bg-black/50
+                rounded-full w-[1.5rem] h-[1.5rem] flex
+                items-center justify-center text-[1.5rem]
+              "
+              >
+                ×
+              </button>
             </div>
           )}
         </div>
