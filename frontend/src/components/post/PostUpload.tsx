@@ -1,13 +1,15 @@
 import ProfilePicture from "./ProfilePicture"
 import { FaRegImage } from "react-icons/fa6"
 import { FaRegSmileBeam } from "react-icons/fa"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import createPost from "../../service/postService"
 import showAlert from "../showAlert"
 
 const PostUpload = () => {
   const textRef = useRef<HTMLTextAreaElement>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   const { token } = useAuth()
   const access = token.access ?? ""
@@ -28,13 +30,20 @@ const PostUpload = () => {
       showAlert("error", "post can not be emty")
 
     try {
-      await createPost(access, content)
+      await createPost(access, content, selectedImage ?? undefined)
 
       textRef.current.value = ""
       textRef.current.style.height = "auto"
+      setSelectedImage(null)
     } catch (error) {
       console.log(error)
       showAlert("error", "internal error")
+    }
+  }
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0])
     }
   }
 
@@ -43,7 +52,7 @@ const PostUpload = () => {
       <ProfilePicture />
 
       <div className="w-full">
-        <div className="w-full flex items-center">
+        <div className="w-full flex-row items-center">
           <textarea placeholder="What`s happening?"
             ref={textRef}
             onInput={handleText}
@@ -52,6 +61,15 @@ const PostUpload = () => {
             mb-[.5rem] text-[1.2rem] outline-none resize-none
             w-full overflow-hidden pt-[.5rem] text-gray-800
             "/>
+          {selectedImage && (
+            <div>
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                alt="IMG"
+                className="object-cover rounded-2xl mb-[.5rem]"
+              />
+            </div>
+          )}
         </div>
 
         <div className="w-full flex justify-between">
@@ -59,7 +77,17 @@ const PostUpload = () => {
           flex items-center text-blue-400 text-[1.2rem]
           gap-2
         ">
-            <FaRegImage className="cursor-pointer" />
+            <FaRegImage
+              className="cursor-pointer"
+              onClick={() => fileRef.current?.click()}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={fileRef}
+              onChange={handleImageSelect}
+            />
             <FaRegSmileBeam className="cursor-pointer" />
           </div>
           <button
