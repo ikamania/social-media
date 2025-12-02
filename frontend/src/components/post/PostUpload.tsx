@@ -23,7 +23,10 @@ const PostUpload = () => {
             ref={textRef}
             onInput={handleText}
             rows={1}
-            className="mb-[.5rem] text-[1.2rem] outline-none resize-none w-full overflow-hidden pt-[.5rem]" />
+            className="
+            mb-[.5rem] text-[1.2rem] outline-none resize-none
+            w-full overflow-hidden pt-[.5rem] text-gray-800
+            "/>
         </div>
 
         <div className="w-full flex justify-between">
