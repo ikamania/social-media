@@ -1,8 +1,6 @@
-import testphoto1 from "../../assets/G7DJfBbWQAACM9t.jpg"
 import ProfilePicture from "./ProfilePicture.tsx"
 
 import { FaRegComment } from "react-icons/fa"
-import { FaRepeat } from "react-icons/fa6"
 import { FaRegHeart } from "react-icons/fa"
 import Reaction from "./Reaction.tsx"
 import { useAuth } from "../../context/AuthContext.tsx"
@@ -17,7 +15,7 @@ interface PostProps {
       username: string,
       email: string,
     },
-    text: string,
+    content: string,
     image?: string,
     liked: boolean,
     likes: number,
@@ -44,7 +42,7 @@ const Post = ({ post }: PostProps) => {
           </div>
           <div>
             <p className="text-[.9rem] my-1">
-              {post.text}
+              {post.content}
             </p>
           </div>
         </div>
@@ -57,7 +55,6 @@ const Post = ({ post }: PostProps) => {
 
         <div className="mt-2 text-gray-500 flex gap-[3rem]">
           <Reaction icon={FaRegComment} number={61} />
-          <Reaction icon={FaRepeat} number={400} />
           <Reaction
             icon={FaRegHeart}
             number={likes}

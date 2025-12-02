@@ -3,10 +3,14 @@ import { FaRegImage } from "react-icons/fa6"
 import { FaRegSmileBeam } from "react-icons/fa"
 import { useRef, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
-import { createPost } from "../../service/postService"
 import showAlert from "../showAlert"
 
-const PostUpload = () => {
+interface UploadBoxProps {
+  upload: (token: string, content: string, file?: File) => Promise<void>,
+  buttonText: string,
+}
+
+const UploadBox = ({ upload, buttonText }: UploadBoxProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -30,13 +34,12 @@ const PostUpload = () => {
       showAlert("error", "post can not be emty")
 
     try {
-      await createPost(access, content, selectedImage ?? undefined)
+      await upload(access, content, selectedImage ?? undefined)
 
       textRef.current.value = ""
       textRef.current.style.height = "auto"
       setSelectedImage(null)
     } catch (error) {
-      console.log(error)
       showAlert("error", "internal error")
     }
   }
@@ -106,11 +109,11 @@ const PostUpload = () => {
             className="
           w-[4rem] h-[2rem] text-white font-bold bg-gray-400
           rounded-2xl p-[.3rem] cursor-pointer
-        ">Post</button>
+        ">{buttonText}</button>
         </div>
       </div>
     </div>
   )
 }
 
-export default PostUpload
+export default UploadBox
