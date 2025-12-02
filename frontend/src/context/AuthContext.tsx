@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
 import { useNavigate } from "react-router-dom"
-import Swal from "sweetalert2"
+import showAlert from "../components/showAlert"
 
 interface AuthContextType {
   token: any | null
@@ -14,10 +14,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const url = "http://localhost:8000"
-
-const showAlert = (icon: "success" | "error", text: string) => {
-  Swal.fire({ icon, text, timer: 1500 })
-}
 
 interface AuthProviderProps {
   children: ReactNode

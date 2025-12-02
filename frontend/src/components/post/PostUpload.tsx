@@ -2,14 +2,39 @@ import ProfilePicture from "./ProfilePicture"
 import { FaRegImage } from "react-icons/fa6"
 import { FaRegSmileBeam } from "react-icons/fa"
 import { useRef } from "react"
+import { useAuth } from "../../context/AuthContext"
+import createPost from "../../service/postService"
+import showAlert from "../showAlert"
 
 const PostUpload = () => {
   const textRef = useRef<HTMLTextAreaElement>(null)
+
+  const { token } = useAuth()
+  const access = token.access ?? ""
 
   const handleText = () => {
     if (textRef.current) {
       textRef.current.style.height = "auto"
       textRef.current.style.height = textRef.current.scrollHeight + "px"
+    }
+  }
+
+  const handlePost = async () => {
+    if (!textRef.current)
+      return
+    const content = textRef.current.value.trim()
+
+    if (!content)
+      showAlert("error", "post can not be emty")
+
+    try {
+      await createPost(access, content)
+
+      textRef.current.value = ""
+      textRef.current.style.height = "auto"
+    } catch (error) {
+      console.log(error)
+      showAlert("error", "internal error")
     }
   }
 
@@ -37,7 +62,9 @@ const PostUpload = () => {
             <FaRegImage className="cursor-pointer" />
             <FaRegSmileBeam className="cursor-pointer" />
           </div>
-          <button className="
+          <button
+            onClick={handlePost}
+            className="
           w-[4rem] h-[2rem] text-white font-bold bg-gray-400
           rounded-2xl p-[.3rem] cursor-pointer
         ">Post</button>
