@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext"
 import showAlert from "../components/showAlert"
 
 const ForYouFeed = () => {
-  const { token } = useAuth()
+  const { token, loadUser } = useAuth()
   const [posts, setPosts] = useState<any[]>([])
 
   useEffect(() => {
@@ -20,8 +20,10 @@ const ForYouFeed = () => {
       }
     }
 
-    if (token?.access)
+    if (token?.access) {
+      loadUser()
       getPosts()
+    }
   }, [token])
 
   return (

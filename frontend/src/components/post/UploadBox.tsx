@@ -19,7 +19,7 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   const { token } = useAuth()
-  const access = token.access ?? ""
+  const access = token?.access ?? ""
 
   const handleText = () => {
     if (textRef.current) {

@@ -3,12 +3,19 @@ import { useNavigate } from "react-router-dom"
 import showAlert from "../components/showAlert"
 
 interface AuthContextType {
-  token: any | null
-  setToken: (token: any | null) => void
-  login: (email: string, password: string) => Promise<void>
-  logout: () => void
-  register: (username: string, email: string, password: string) => Promise<void>
-  validToken: () => Promise<boolean>
+  token: any | null,
+  setToken: (token: any | null) => void,
+  login: (email: string, password: string) => Promise<void>,
+  logout: () => void,
+  register: (username: string, email: string, password: string) => Promise<void>,
+  validToken: () => Promise<boolean>,
+  loadUser: () => void,
+  user: User | null,
+}
+
+interface User {
+  username: string,
+  email: string,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -25,7 +32,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     return stored ? JSON.parse(stored) : null
   })
+  const [user, setUser] = useState<User | null>(null)
   const navigate = useNavigate()
+
+  const loadUser = async () => {
+    if (!token)
+      return
+
+    try {
+      const response = await fetch(`${url}/users/me/`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token?.access}`,
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok)
+        showAlert("error", "failed to load user")
+
+      const data = await response.json()
+      setUser(data)
+    } catch {
+      showAlert("error", "internal error while loading user")
+    }
+  }
 
   const register = async (username: string, email: string, password: string) => {
     if (!username || !email || !password) {
@@ -138,7 +169,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken }}>
+    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken, loadUser, user }}>
       {children}
     </AuthContext.Provider>
   )
@@ -150,5 +181,5 @@ export function useAuth() {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider")
   }
-  return context;
+  return context
 }

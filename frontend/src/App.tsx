@@ -26,7 +26,7 @@ function App() {
     }, [validToken])
 
     if (allowed === null)
-      return <div>Loading...</div>
+      return <div className="w-full justify-center">LOADING...</div>
 
     if (!allowed)
       return <Navigate to="/auth" />

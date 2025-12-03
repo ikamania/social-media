@@ -8,8 +8,9 @@ import { toggleLike } from "../../service/postService"
 import { useState, useEffect } from "react"
 import UploadBox from "./UploadBox.tsx"
 import CloseButton from "./CloseButton.tsx"
-import { createComment, fetchComments } from "../../service/postService.ts"
+import { createComment, fetchComments, deletePost } from "../../service/postService.ts"
 import showAlert from "../showAlert.ts"
+import PostSettings from "./PostSettings.tsx"
 
 interface PostProps {
   post: {
@@ -30,7 +31,7 @@ interface PostProps {
 }
 
 const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
-  const { token } = useAuth()
+  const { token, user } = useAuth()
   const [likes, setLikes] = useState(post.likes)
   const [liked, setLiked] = useState(post.liked)
   const [showComments, setShowComments] = useState(false)
@@ -62,15 +63,20 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   return (
     <div className="
       w-full p-[1rem] flex border-b-1 border-gray-100
-      hover:bg-gray-50
     ">
       <ProfilePicture />
 
-      <div className="flex-col">
+      <div className="flex-col w-full">
         <div className="mb-[.5rem]">
-          <div className="flex gap-[.5rem] text-[.9rem]">
+          <div className="relative flex gap-[.5rem] text-[.9rem]">
             <p className="font-bold">{post.user.username}</p>
             <p className="text-gray-500">@{post.user.email}</p>
+
+            {post.user.email == user?.email && (
+              <PostSettings
+                handleDelete={() => deletePost(post.id.toString(), token?.access, likeTarget)}
+              />
+            )}
           </div>
           <div>
             <p className="text-[.9rem] my-1">
@@ -110,11 +116,11 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
         {(commentsOn && showComments) && (
           <>
             <UploadBox upload={createComment} postId={post.id} buttonText="Reply" placeholder="Post your reply" />
-            <div className="w-[40%] relative">
+            <div className="relative">
               <CloseButton
                 text="↑"
                 onClick={() => commentToggle()}
-                css="bottom-1"
+                css="bottom-1 font-bold text-[.8rem]"
               />
               {comments.map(comment => (
                 <Post

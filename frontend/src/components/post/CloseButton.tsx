@@ -11,7 +11,7 @@ const CloseButton = ({ text, onClick, css }: CloseButtonProps) => {
       type="button"
       onClick={onClick}
       className={`
-          absolute text-white bg-black/50
+          absolute text-white bg-black/30
           rounded-full w-[1.5rem] h-[1.5rem] flex
           items-center justify-center cursor-pointer
           ${css ?? ""}

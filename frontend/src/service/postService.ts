@@ -104,3 +104,27 @@ export const fetchComments = async (tokenAccess: string, postId: number) => {
     showAlert("error", "internale error")
   }
 }
+
+export const deletePost = async (id: string, token: string, target: "post" | "comment"): Promise<void> => {
+  const urlPath = (
+    target === "post" ? `/posts/${id}/` : `/comments/${id}/`
+  )
+
+  try {
+    const response = await fetch(`${url}${urlPath}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response)
+      showAlert("error", `could not delete ${target}`)
+    else
+      showAlert("success", `${target} deleted`)
+
+  } catch {
+    showAlert("error", "internal error")
+  }
+}
