@@ -42,4 +42,5 @@ class Comment(models.Model):
         related_name="comments",
     )
     content = models.TextField(max_length=160)
+    image = models.ImageField(upload_to="comments/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
