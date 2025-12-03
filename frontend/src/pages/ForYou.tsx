@@ -23,7 +23,6 @@ const ForYouFeed = () => {
     if (token?.access)
       getPosts()
   }, [token])
-  console.log(posts)
 
   return (
     <>

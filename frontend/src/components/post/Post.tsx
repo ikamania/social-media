@@ -8,6 +8,7 @@ import { toggleLike } from "../../service/postService"
 import { useState } from "react"
 import UploadBox from "./UploadBox.tsx"
 import CloseButton from "./CloseButton.tsx"
+import { createComment } from "../../service/postService.ts"
 
 interface PostProps {
   post: {
@@ -33,10 +34,6 @@ const Post = ({ post, commentsOn }: PostProps) => {
 
   const commentToggle = () => {
     setShowComments((prev: boolean) => !prev)
-  }
-
-  const handleComment = async (tokenAccess: string, content: string, image?: File) => {
-    return
   }
 
   return (
@@ -89,7 +86,7 @@ const Post = ({ post, commentsOn }: PostProps) => {
 
         {(showComments && commentsOn) && (
           <>
-            <UploadBox upload={handleComment} buttonText="Reply" placeholder="Post your reply" />
+            <UploadBox upload={createComment} postId={post.id} buttonText="Reply" placeholder="Post your reply" />
             <div className="w-[40%] relative">
               <CloseButton
                 text="↑"

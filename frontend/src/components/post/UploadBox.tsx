@@ -7,12 +7,13 @@ import showAlert from "../showAlert"
 import CloseButton from "./CloseButton.tsx"
 
 interface UploadBoxProps {
-  upload: (token: string, content: string, file?: File) => Promise<void>,
+  upload: (token: string, content: string, file?: File, postId?: number) => Promise<void>,
   buttonText: string,
   placeholder: string,
+  postId?: number,
 }
 
-const UploadBox = ({ upload, buttonText, placeholder }: UploadBoxProps) => {
+const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -36,7 +37,7 @@ const UploadBox = ({ upload, buttonText, placeholder }: UploadBoxProps) => {
       showAlert("error", "post can not be emty")
 
     try {
-      await upload(access, content, selectedImage ?? undefined)
+      await upload(access, content, selectedImage ?? undefined, postId ?? undefined)
 
       textRef.current.value = ""
       textRef.current.style.height = "auto"

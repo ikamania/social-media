@@ -55,3 +55,30 @@ export const toggleLike = async (postId: number, tokenAccess: string) => {
 
   return data
 }
+
+export const createComment = async (tokenAccess: string, content: string, image?: File, postId?: number) => {
+  const form = new FormData()
+
+  form.append("content", content)
+  if (postId) {
+    form.append("post", postId.toString())
+  }
+  else {
+    showAlert("error", "no postId provided")
+  }
+  if (image)
+    form.append("image", image)
+
+  const response = await fetch(`${url}/comments/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${tokenAccess}`,
+    },
+    body: form,
+  })
+
+  if (response.ok)
+    showAlert("success", "commented")
+  else
+    showAlert("error", "could not comment")
+}
