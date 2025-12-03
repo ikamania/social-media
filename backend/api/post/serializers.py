@@ -7,10 +7,11 @@ class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     likes = serializers.IntegerField(source="likes.count", read_only=True)
     liked = serializers.SerializerMethodField()
+    comments_count = serializers.IntegerField(source="comments.count", read_only=True)
 
     class Meta:
         model = Post
-        fields = ["id", "user", "content", "image", "likes", "liked"]
+        fields = ["id", "user", "content", "image", "likes", "liked", "comments_count"]
 
     def get_liked(self, obj):
         user = self.context.get("request").user

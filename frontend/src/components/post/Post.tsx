@@ -23,6 +23,7 @@ interface PostProps {
     image?: string,
     liked: boolean,
     likes: number,
+    comments_count: number,
   }
   commentsOn: boolean,
   likeTarget: "post" | "comment",
@@ -44,24 +45,19 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   }
 
   useEffect(() => {
-    const getPosts = async () => {
+    const getSetComments = async () => {
       try {
         const data = await fetchComments(token.access, post.id)
 
         setComments(data)
-        console.log(data)
       } catch {
         showAlert("error", "internal error")
       }
     }
 
     if (token?.access && getComments)
-      getPosts()
+      getSetComments()
   }, [getComments])
-
-  useEffect(() => {
-    console.log(1)
-  }, [liked])
 
   return (
     <div className="
@@ -93,7 +89,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
           {commentsOn && (
             <Reaction
               icon={FaRegComment}
-              number={0}
+              number={post.comments_count}
               onClick={commentToggle}
             />
           )}
