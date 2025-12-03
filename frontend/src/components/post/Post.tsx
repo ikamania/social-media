@@ -6,6 +6,8 @@ import Reaction from "./Reaction.tsx"
 import { useAuth } from "../../context/AuthContext.tsx"
 import { toggleLike } from "../../service/postService"
 import { useState } from "react"
+import UploadBox from "./UploadBox.tsx"
+import CloseButton from "./CloseButton.tsx"
 
 interface PostProps {
   post: {
@@ -20,12 +22,22 @@ interface PostProps {
     liked: boolean,
     likes: number,
   }
+  commentsOn: boolean,
 }
 
-const Post = ({ post }: PostProps) => {
+const Post = ({ post, commentsOn }: PostProps) => {
   const { token } = useAuth()
-  const [likes, setLikes] = useState(post.likes);
-  const [liked, setLiked] = useState(post.liked);
+  const [likes, setLikes] = useState(post.likes)
+  const [liked, setLiked] = useState(post.liked)
+  const [showComments, setShowComments] = useState(false)
+
+  const commentToggle = () => {
+    setShowComments((prev: boolean) => !prev)
+  }
+
+  const handleComment = async (tokenAccess: string, content: string, image?: File) => {
+    return
+  }
 
   return (
     <div className="
@@ -54,7 +66,13 @@ const Post = ({ post }: PostProps) => {
         </div>
 
         <div className="mt-2 text-gray-500 flex gap-[3rem]">
-          <Reaction icon={FaRegComment} number={61} />
+          {commentsOn && (
+            <Reaction
+              icon={FaRegComment}
+              number={0}
+              onClick={commentToggle}
+            />
+          )}
           <Reaction
             icon={FaRegHeart}
             number={likes}
@@ -68,6 +86,19 @@ const Post = ({ post }: PostProps) => {
             css={`${liked ? "text-red-700" : "text-gray-500"}`}
           />
         </div>
+
+        {(showComments && commentsOn) && (
+          <>
+            <UploadBox upload={handleComment} buttonText="Reply" placeholder="Post your reply" />
+            <div className="w-[40%] relative">
+              <CloseButton
+                text="↑"
+                onClick={() => commentToggle()}
+                css="bottom-1"
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

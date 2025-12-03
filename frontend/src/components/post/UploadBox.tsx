@@ -4,13 +4,15 @@ import { FaRegSmileBeam } from "react-icons/fa"
 import { useRef, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import showAlert from "../showAlert"
+import CloseButton from "./CloseButton.tsx"
 
 interface UploadBoxProps {
   upload: (token: string, content: string, file?: File) => Promise<void>,
   buttonText: string,
+  placeholder: string,
 }
 
-const UploadBox = ({ upload, buttonText }: UploadBoxProps) => {
+const UploadBox = ({ upload, buttonText, placeholder }: UploadBoxProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -56,7 +58,7 @@ const UploadBox = ({ upload, buttonText }: UploadBoxProps) => {
 
       <div className="w-full">
         <div className="w-full flex-row items-center">
-          <textarea placeholder="What`s happening?"
+          <textarea placeholder={placeholder}
             ref={textRef}
             onInput={handleText}
             rows={1}
@@ -71,17 +73,11 @@ const UploadBox = ({ upload, buttonText }: UploadBoxProps) => {
                 alt="IMG"
                 className="object-cover rounded-2xl mb-[.5rem]"
               />
-              <button
-                type="button"
+              <CloseButton
+                text="×"
                 onClick={() => setSelectedImage(null)}
-                className="
-                absolute top-1 right-2 text-white bg-black/50
-                rounded-full w-[1.5rem] h-[1.5rem] flex
-                items-center justify-center text-[1.5rem] cursor-pointer
-              "
-              >
-                ×
-              </button>
+                css="top-1 right-2 text-[1.4rem]"
+              />
             </div>
           )}
         </div>

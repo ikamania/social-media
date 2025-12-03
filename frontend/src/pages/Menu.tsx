@@ -11,7 +11,7 @@ const Menu = () => {
       </div>
 
       <Feed />
-      <UploadBox upload={createPost} buttonText="Post" />
+      <UploadBox upload={createPost} buttonText="Post" placeholder="What`s happening?" />
     </>
   )
 }
