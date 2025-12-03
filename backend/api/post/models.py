@@ -13,11 +13,11 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Like(models.Model):
+class PostLike(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="likes",
+        related_name="post_likes",
     )
     post = models.ForeignKey(
         Post,
@@ -44,3 +44,20 @@ class Comment(models.Model):
     content = models.TextField(max_length=160)
     image = models.ImageField(upload_to="comments/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class CommentLike(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="comment_likes",
+    )
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name="likes",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "comment")

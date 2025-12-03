@@ -42,8 +42,12 @@ export const fetchPosts = async (tokenAccess: string) => {
   }
 }
 
-export const toggleLike = async (postId: number, tokenAccess: string) => {
-  const response = await fetch(`${url}/posts/${postId}/like/`, {
+export const toggleLike = async (id: number, likeTarget: "post" | "comment", tokenAccess: string) => {
+  const urlPath = (
+    likeTarget === "post" ? `/posts/${id}/like/` : `/comments/${id}/like/`
+  )
+
+  const response = await fetch(`${url}${urlPath}`, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${tokenAccess}`,

@@ -32,6 +32,7 @@ const ForYouFeed = () => {
           key={post.id}
           post={post}
           commentsOn={true}
+          likeTarget="post"
         />
       ))}
     </>

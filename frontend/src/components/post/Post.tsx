@@ -25,9 +25,10 @@ interface PostProps {
     likes: number,
   }
   commentsOn: boolean,
+  likeTarget: "post" | "comment",
 }
 
-const Post = ({ post, commentsOn }: PostProps) => {
+const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   const { token } = useAuth()
   const [likes, setLikes] = useState(post.likes)
   const [liked, setLiked] = useState(post.liked)
@@ -48,6 +49,7 @@ const Post = ({ post, commentsOn }: PostProps) => {
         const data = await fetchComments(token.access, post.id)
 
         setComments(data)
+        console.log(data)
       } catch {
         showAlert("error", "internal error")
       }
@@ -56,6 +58,10 @@ const Post = ({ post, commentsOn }: PostProps) => {
     if (token?.access && getComments)
       getPosts()
   }, [getComments])
+
+  useEffect(() => {
+    console.log(1)
+  }, [liked])
 
   return (
     <div className="
@@ -95,7 +101,7 @@ const Post = ({ post, commentsOn }: PostProps) => {
             icon={FaRegHeart}
             number={likes}
             onClick={async () => {
-              const response = await toggleLike(post.id, token.access)
+              const response = await toggleLike(post.id, likeTarget, token.access)
               const newLiked = response.liked
 
               setLiked(newLiked)
@@ -105,7 +111,7 @@ const Post = ({ post, commentsOn }: PostProps) => {
           />
         </div>
 
-        {(showComments && commentsOn) && (
+        {(commentsOn && showComments) && (
           <>
             <UploadBox upload={createComment} postId={post.id} buttonText="Reply" placeholder="Post your reply" />
             <div className="w-[40%] relative">
@@ -119,6 +125,7 @@ const Post = ({ post, commentsOn }: PostProps) => {
                   key={comment.id}
                   post={comment}
                   commentsOn={false}
+                  likeTarget="comment"
                 />
               ))}
 
