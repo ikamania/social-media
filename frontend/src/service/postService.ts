@@ -88,7 +88,7 @@ export const createComment = async (tokenAccess: string, content: string, image?
 
 export const fetchComments = async (tokenAccess: string, postId: number) => {
   try {
-    const response = await fetch(`${url}/comments/?post${postId}`, {
+    const response = await fetch(`${url}/comments/?post=${postId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${tokenAccess}`,
