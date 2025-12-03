@@ -3,7 +3,7 @@ import Menu from "./Menu"
 import Post from "../components/post/Post"
 import { fetchPosts } from "../service/postService"
 import { useAuth } from "../context/AuthContext"
-import ShowAlert from "../components/showAlert"
+import showAlert from "../components/showAlert"
 
 const ForYouFeed = () => {
   const { token } = useAuth()
@@ -16,7 +16,7 @@ const ForYouFeed = () => {
 
         setPosts(data)
       } catch {
-        ShowAlert("error", "internal error")
+        showAlert("error", "internal error")
       }
     }
 

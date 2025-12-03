@@ -5,10 +5,11 @@ import { FaRegHeart } from "react-icons/fa"
 import Reaction from "./Reaction.tsx"
 import { useAuth } from "../../context/AuthContext.tsx"
 import { toggleLike } from "../../service/postService"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import UploadBox from "./UploadBox.tsx"
 import CloseButton from "./CloseButton.tsx"
-import { createComment } from "../../service/postService.ts"
+import { createComment, fetchComments } from "../../service/postService.ts"
+import showAlert from "../showAlert.ts"
 
 interface PostProps {
   post: {
@@ -31,10 +32,30 @@ const Post = ({ post, commentsOn }: PostProps) => {
   const [likes, setLikes] = useState(post.likes)
   const [liked, setLiked] = useState(post.liked)
   const [showComments, setShowComments] = useState(false)
+  const [comments, setComments] = useState<any[]>([])
+  const [getComments, setGetComments] = useState(false)
 
   const commentToggle = () => {
     setShowComments((prev: boolean) => !prev)
+
+    if (!getComments)
+      setGetComments(true)
   }
+
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const data = await fetchComments(token.access, post.id)
+
+        setComments(data)
+      } catch {
+        showAlert("error", "internal error")
+      }
+    }
+
+    if (token?.access && getComments)
+      getPosts()
+  }, [getComments])
 
   return (
     <div className="
@@ -93,6 +114,14 @@ const Post = ({ post, commentsOn }: PostProps) => {
                 onClick={() => commentToggle()}
                 css="bottom-1"
               />
+              {comments.map(comment => (
+                <Post
+                  key={comment.id}
+                  post={comment}
+                  commentsOn={false}
+                />
+              ))}
+
             </div>
           </>
         )}

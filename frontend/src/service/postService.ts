@@ -36,7 +36,6 @@ export const fetchPosts = async (tokenAccess: string) => {
       showAlert("error", "failed to fetch posts")
 
     const data = await response.json()
-    console.log(data)
     return data
   } catch {
     showAlert("error", "internale error")
@@ -81,4 +80,23 @@ export const createComment = async (tokenAccess: string, content: string, image?
     showAlert("success", "commented")
   else
     showAlert("error", "could not comment")
+}
+
+export const fetchComments = async (tokenAccess: string, postId: number) => {
+  try {
+    const response = await fetch(`${url}/comments/?post${postId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${tokenAccess}`,
+        "Content-Type": "application/json",
+      },
+    })
+    if (!response.ok)
+      showAlert("error", "failed to fetch comments")
+
+    const data = await response.json()
+    return data
+  } catch {
+    showAlert("error", "internale error")
+  }
 }
