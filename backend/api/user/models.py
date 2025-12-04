@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
+    image = models.ImageField(upload_to="users/", blank=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "email"

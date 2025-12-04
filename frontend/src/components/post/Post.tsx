@@ -19,6 +19,7 @@ interface PostProps {
       id: number,
       username: string,
       email: string,
+      image?: string,
     },
     content: string,
     image?: string,
@@ -79,7 +80,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
     <div className="
       w-full p-[1rem] flex border-b-1 border-gray-100
     ">
-      <ProfilePicture />
+      <ProfilePicture image={post.user.image} />
 
       <div className="flex-col w-full">
         <div className="mb-[.5rem]">

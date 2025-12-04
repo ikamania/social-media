@@ -18,7 +18,7 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
   const fileRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
-  const { token } = useAuth()
+  const { token, user } = useAuth()
   const access = token?.access ?? ""
 
   const handleText = () => {
@@ -55,7 +55,7 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
 
   return (
     <div className="w-full p-[1rem] flex border-b-1 border-gray-100">
-      <ProfilePicture />
+      <ProfilePicture image={user?.image} />
 
       <div className="w-full">
         <div className="w-full flex-row items-center">

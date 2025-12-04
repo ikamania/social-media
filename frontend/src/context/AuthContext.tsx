@@ -16,6 +16,8 @@ interface AuthContextType {
 interface User {
   username: string,
   email: string,
+  image?: string,
+  date_joined: string,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
