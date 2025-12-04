@@ -134,8 +134,11 @@ export const deletePost = async (id: string, token: string, target: "post" | "co
 
     if (!response)
       showAlert("error", `could not delete ${target}`)
-    else
+    else {
       showAlert("success", `${target} deleted`)
+
+      dispatchWindowEvent(target == "post" ? "new post" : "new comment") // 1
+    }
 
   } catch {
     showAlert("error", "internal error")
