@@ -37,6 +37,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   const [showComments, setShowComments] = useState(false)
   const [comments, setComments] = useState<any[]>([])
   const [getComments, setGetComments] = useState(false)
+  const [commentCount, setCommentCount] = useState(post.comments_count)
 
   const commentToggle = () => {
     setShowComments((prev: boolean) => !prev)
@@ -45,20 +46,34 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
       setGetComments(true)
   }
 
-  useEffect(() => {
-    const getSetComments = async () => {
-      try {
-        const data = await fetchComments(token.access, post.id)
+  // improvment >
+  const getSetComments = async () => {
+    try {
+      const data = await fetchComments(token.access, post.id)
 
-        setComments(data)
-      } catch {
-        showAlert("error", "internal error")
-      }
+      setComments(data)
+    } catch {
+      showAlert("error", "internal error")
     }
+  }
 
+  useEffect(() => {
     if (token?.access && getComments)
       getSetComments()
   }, [getComments])
+
+  useEffect(() => {
+    const handler = () => {
+      getSetComments()
+      setCommentCount(prev => prev + 1)
+    }
+    window.addEventListener("new comment", handler)
+
+    return () => {
+      window.removeEventListener("new comment", handler)
+    }
+  }, [])
+  // improvment ^
 
   return (
     <div className="
@@ -95,7 +110,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
           {commentsOn && (
             <Reaction
               icon={FaRegComment}
-              number={post.comments_count}
+              number={commentCount}
               onClick={commentToggle}
             />
           )}
@@ -130,7 +145,6 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
                   likeTarget="comment"
                 />
               ))}
-
             </div>
           </>
         )}

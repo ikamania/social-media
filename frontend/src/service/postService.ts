@@ -2,6 +2,13 @@ import showAlert from "../components/showAlert.ts"
 
 const url = "http://localhost:8000"
 
+// improvment 1
+const dispatchWindowEvent = (name: string) => {
+  const event = new CustomEvent(name)
+
+  window.dispatchEvent(event)
+}
+
 export const createPost = async (tokenAccess: string, content: string, image?: File) => {
   const form = new FormData()
 
@@ -17,8 +24,11 @@ export const createPost = async (tokenAccess: string, content: string, image?: F
     body: form,
   })
 
-  if (response.ok)
+  if (response.ok) {
     showAlert("success", "published")
+
+    dispatchWindowEvent("new post") // 1
+  }
   else
     showAlert("error", "could not publish")
 }
@@ -80,8 +90,11 @@ export const createComment = async (tokenAccess: string, content: string, image?
     body: form,
   })
 
-  if (response.ok)
+  if (response.ok) {
     showAlert("success", "commented")
+
+    dispatchWindowEvent("new comment") // 1
+  }
   else
     showAlert("error", "could not comment")
 }

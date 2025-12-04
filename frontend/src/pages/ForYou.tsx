@@ -9,22 +9,33 @@ const ForYouFeed = () => {
   const { token, loadUser } = useAuth()
   const [posts, setPosts] = useState<any[]>([])
 
-  useEffect(() => {
-    const getPosts = async () => {
-      try {
-        const data = await fetchPosts(token.access)
+  const getPosts = async () => {
+    try {
+      const data = await fetchPosts(token.access)
 
-        setPosts(data)
-      } catch {
-        showAlert("error", "internal error")
-      }
+      setPosts(data)
+    } catch {
+      showAlert("error", "internal error")
     }
+  }
 
+  useEffect(() => {
     if (token?.access) {
       loadUser()
       getPosts()
     }
   }, [token])
+
+  useEffect(() => {
+    const handler = () => {
+      getPosts()
+    }
+    window.addEventListener("new post", handler)
+
+    return () => {
+      window.removeEventListener("new post", handler)
+    }
+  }, [])
 
   return (
     <>
