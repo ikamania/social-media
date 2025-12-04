@@ -86,7 +86,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
         <div className="mb-[.5rem]">
           <div className="relative flex gap-[.5rem] text-[.9rem]">
             <p className="font-bold">{post.user.username}</p>
-            <p className="text-gray-500">@{post.user.email}</p>
+            <p className="text-gray-500">{post.user.email}</p>
 
             {post.user.email == user?.email && (
               <PostSettings
