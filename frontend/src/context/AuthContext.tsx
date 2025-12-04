@@ -10,6 +10,7 @@ interface AuthContextType {
   register: (username: string, email: string, password: string) => Promise<void>,
   validToken: () => Promise<boolean>,
   loadUser: () => void,
+  loadByUsername: (username: string) => Promise<any>,
   user: User | null,
 }
 
@@ -52,11 +53,35 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (!response.ok)
         showAlert("error", "failed to load user")
+      else {
+        const data = await response.json()
+        setUser(data)
+      }
 
-      const data = await response.json()
-      setUser(data)
     } catch {
       showAlert("error", "internal error while loading user")
+    }
+  }
+
+  const loadByUsername = async (username: string) => {
+    try {
+      const response = await fetch(`${url}/users/by-username/${username}/`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token?.access}`,
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok)
+        showAlert("error", "failed to load user")
+      else {
+        const data = await response.json()
+
+        return data
+      }
+    } catch {
+      showAlert("error", "internal erorr while loading user")
     }
   }
 
@@ -171,7 +196,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken, loadUser, user }}>
+    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken, loadUser, loadByUsername, user }}>
       {children}
     </AuthContext.Provider>
   )

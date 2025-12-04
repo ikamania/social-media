@@ -4,6 +4,7 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -13,10 +14,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == "create":
             return [permissions.AllowAny()]
-        elif self.action == "me":
-            return [permissions.IsAuthenticated()]
         else:
-            return [permissions.IsAdminUser()]
+            return [permissions.IsAuthenticated()]
 
     @action(
         detail=False,
@@ -25,5 +24,17 @@ class UserViewSet(viewsets.ModelViewSet):
     )
     def me(self, request):
         serializer = self.get_serializer(request.user)
+
+        return Response(serializer.data)
+
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="by-username/(?P<username>[^/.]+)",  # safer regex
+        permission_classes=[permissions.AllowAny()],
+    )
+    def by_username(self, request, username=None):
+        user = get_object_or_404(User, username=username)
+        serializer = self.get_serializer(user)
 
         return Response(serializer.data)

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 
+import Account from "./pages/Account.tsx"
 import ForYou from './pages/ForYou.tsx'
 import Following from './pages/Following.tsx'
 import Auth from './pages/Auth.tsx'
@@ -46,6 +47,11 @@ function App() {
           <Route path='/following' element={
             <ProtectedRoute>
               <Following />
+            </ProtectedRoute>
+          }></Route>
+          <Route path='/:username' element={
+            <ProtectedRoute>
+              <Account />
             </ProtectedRoute>
           }></Route>
           <Route path='/auth' element={<Auth />}></Route>

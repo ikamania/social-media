@@ -9,7 +9,7 @@ const Top = () => {
       <ProfilePicture
         image={user?.image}
         css="!w-[2.5rem] !h-[2.5rem]"
-        to="account"
+        to={`${user?.username}`}
       />
     </div>
   )

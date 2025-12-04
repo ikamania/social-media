@@ -80,7 +80,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
     <div className="
       w-full p-[1rem] flex border-b-1 border-gray-100
     ">
-      <ProfilePicture image={post.user.image} />
+      <ProfilePicture image={post.user.image} to={post.user.username} />
 
       <div className="flex-col w-full">
         <div className="mb-[.5rem]">
