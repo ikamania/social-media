@@ -6,7 +6,7 @@ interface TabProps {
 
 const Tab = ({ label, activeTab, onClick }: TabProps) => {
   const isActive = label == activeTab
-  console.log(isActive)
+
   return (
     <div className="w-full h-[2rem] flex justify-center cursor-pointer">
       <p

@@ -12,7 +12,6 @@ const ForYouFeed = () => {
   const getPosts = async () => {
     try {
       const data = await fetchPosts(token.access)
-
       setPosts(data)
     } catch {
       showAlert("error", "internal error")

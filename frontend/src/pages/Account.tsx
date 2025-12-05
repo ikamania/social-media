@@ -7,6 +7,8 @@ import showAlert from "../components/showAlert"
 import { FaRegCalendarAlt } from "react-icons/fa"
 import FollowInfo from "../components/account/FollowInfo"
 import Tab from "../components/account/Tab.tsx"
+import { fetchPostsByUsername } from "../service/postService.ts"
+import Post from "../components/post/Post.tsx"
 
 interface User {
   id: number,
@@ -16,12 +18,28 @@ interface User {
   date_joined: string,
 }
 
+interface PostProps {
+  id: number,
+  user: {
+    id: number,
+    username: string,
+    email: string,
+    image?: string,
+  },
+  content: string,
+  image?: string,
+  liked: boolean,
+  likes: number,
+  comments_count: number,
+}
+
 const Account = () => {
   const { username } = useParams()
-  const { user, loadUser, loadByUsername } = useAuth()
+  const { user, loadUser, loadByUsername, token } = useAuth()
   const [profile, setProfile] = useState<User | null>(null)
   const [activeTab, setActiveTab] = useState("Posts")
   const tabs = ["Posts", "Replies", "Media"];
+  const [posts, setPosts] = useState<PostProps[] | null>(null)
 
   const load = async () => {
     if (!username)
@@ -37,6 +55,15 @@ const Account = () => {
       if (!user) {
         loadUser()
       }
+    } catch {
+      showAlert("error", "internal error")
+    }
+
+    if (posts)
+      return
+    try {
+      const data = await fetchPostsByUsername(token.access, username)
+      setPosts(data)
     } catch {
       showAlert("error", "internal error")
     }
@@ -96,13 +123,23 @@ const Account = () => {
           <FollowInfo number={21} text="Followers" />
         </div>
       </div>
-      <div className="mt-[2rem] flex">
+      <div className="mt-[1rem] flex">
         {tabs.map((tab) => (
           <Tab
             key={tab}
             label={tab}
             activeTab={activeTab}
             onClick={() => setActiveTab(tab)}
+          />
+        ))}
+      </div>
+      <div className="">
+        {activeTab == "Posts" && posts?.map(post => (
+          <Post
+            key={post.id}
+            post={post}
+            commentsOn={true}
+            likeTarget="post"
           />
         ))}
       </div>

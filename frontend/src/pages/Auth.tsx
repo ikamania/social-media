@@ -3,7 +3,6 @@ import Or from "../components/auth/Or.tsx"
 import Link from "../components/auth/Link.tsx"
 
 const Auth = () => {
-
   return (
     <div className="w-full h-full flex justify-center pt-[5rem]">
       <div className="w-full p-[2rem] pr-[4rem]">

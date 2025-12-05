@@ -52,6 +52,25 @@ export const fetchPosts = async (tokenAccess: string) => {
   }
 }
 
+export const fetchPostsByUsername = async (tokenAccess: string, username: string) => {
+  try {
+    const response = await fetch(`${url}/posts/by-username/${username}/`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${tokenAccess}`,
+        "Content-Type": "application/json",
+      },
+    })
+    if (!response.ok)
+      showAlert("error", "failed to fetch posts")
+
+    const data = await response.json()
+    return data
+  } catch {
+    showAlert("error", "internale error")
+  }
+}
+
 export const toggleLike = async (id: number, likeTarget: "post" | "comment", tokenAccess: string) => {
   const urlPath = (
     likeTarget === "post" ? `/posts/${id}/like/` : `/comments/${id}/like/`

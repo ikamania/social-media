@@ -20,7 +20,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(
         detail=False,
         methods=["get"],
-        permission_classes=[permissions.IsAuthenticated()],
+        permission_classes=[permissions.IsAuthenticated],
     )
     def me(self, request):
         serializer = self.get_serializer(request.user)
@@ -31,7 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
         detail=False,
         methods=["get"],
         url_path="by-username/(?P<username>[^/.]+)",  # safer regex
-        permission_classes=[permissions.AllowAny()],
+        permission_classes=[permissions.IsAuthenticated],
     )
     def by_username(self, request, username=None):
         user = get_object_or_404(User, username=username)

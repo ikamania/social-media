@@ -3,6 +3,9 @@ from .models import Post, PostLike, Comment, CommentLike
 from .serializers import CommentSerializer, PostSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -25,6 +28,19 @@ class PostViewSet(viewsets.ModelViewSet):
             like.delete()
             return Response({"liked": False}, status=200)
         return Response({"liked": True}, status=201)
+
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="by-username/(?P<username>[^/.]+)",  # safer regex
+        permission_classes=[permissions.IsAuthenticated],
+    )
+    def by_username(self, request, username=None):
+        user = User.objects.get(username=username)
+        posts = Post.objects.filter(user=user)
+        serializer = self.get_serializer(posts, many=True)
+
+        return Response(serializer.data)
 
 
 class CommentViewSet(viewsets.ModelViewSet):

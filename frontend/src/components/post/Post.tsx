@@ -51,7 +51,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   const getSetComments = async () => {
     try {
       const data = await fetchComments(token.access, post.id)
-
+      console.log(data)
       setComments(data)
     } catch {
       showAlert("error", "internal error")
