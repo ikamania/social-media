@@ -6,6 +6,7 @@ import testphoto2 from "../assets/5HdM0_7C_400x400.jpg"
 import showAlert from "../components/showAlert"
 import { FaRegCalendarAlt } from "react-icons/fa"
 import FollowInfo from "../components/account/FollowInfo"
+import Tab from "../components/account/Tab.tsx"
 
 interface User {
   id: number,
@@ -19,6 +20,8 @@ const Account = () => {
   const { username } = useParams()
   const { user, loadUser, loadByUsername } = useAuth()
   const [profile, setProfile] = useState<User | null>(null)
+  const [activeTab, setActiveTab] = useState("Posts")
+  const tabs = ["Posts", "Replies", "Media"];
 
   const load = async () => {
     if (!username)
@@ -92,6 +95,16 @@ const Account = () => {
           <FollowInfo number={121} text="Following" />
           <FollowInfo number={21} text="Followers" />
         </div>
+      </div>
+      <div className="mt-[2rem] flex">
+        {tabs.map((tab) => (
+          <Tab
+            key={tab}
+            label={tab}
+            activeTab={activeTab}
+            onClick={() => setActiveTab(tab)}
+          />
+        ))}
       </div>
     </div>
   )
