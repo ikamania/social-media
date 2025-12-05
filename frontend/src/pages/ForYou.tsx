@@ -24,7 +24,7 @@ const ForYouFeed = () => {
       loadUser()
       getPosts()
     }
-  }, [token])
+  }, [])
 
   useEffect(() => {
     const handler = () => {

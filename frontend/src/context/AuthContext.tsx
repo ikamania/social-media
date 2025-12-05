@@ -158,9 +158,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         },
         body: JSON.stringify({ token: token?.access })
       })
-      if (response.ok) {
+      if (response.ok)
         return true
-      }
 
       if (token.refresh) {
         const response = await fetch(`${url}/api/token/refresh/`, {
@@ -187,7 +186,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       localStorage.removeItem("token")
 
       return false
-
     } catch (error) {
       showAlert("error", "internal error")
 

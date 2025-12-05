@@ -24,7 +24,7 @@ function App() {
         setAllowed(valid)
       }
       check()
-    }, [validToken])
+    }, [])
 
     if (allowed === null)
       return <div className="w-full justify-center">LOADING...</div>
