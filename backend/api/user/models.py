@@ -22,6 +22,9 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
+    following = models.ManyToManyField(
+        "self", symmetrical=False, related_name="followers", blank=True
+    )
     image = models.ImageField(upload_to="users/", blank=True, null=True)
     date_joined = models.DateTimeField(auto_now_add=True)
 

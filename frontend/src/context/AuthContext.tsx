@@ -19,6 +19,8 @@ interface User {
   email: string,
   image?: string,
   date_joined: string,
+  followers_count: number,
+  following_count: number,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)

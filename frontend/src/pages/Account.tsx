@@ -7,7 +7,7 @@ import showAlert from "../components/showAlert"
 import { FaRegCalendarAlt } from "react-icons/fa"
 import FollowInfo from "../components/account/FollowInfo"
 import Tab from "../components/account/Tab.tsx"
-import { fetchPostsByUsername } from "../service/postService.ts"
+import { fetchPostsByUsername, followOrUnfollow } from "../service/postService.ts"
 import Post from "../components/post/Post.tsx"
 
 interface User {
@@ -16,6 +16,8 @@ interface User {
   email: string,
   image?: string,
   date_joined: string,
+  following_count: number,
+  followers_count: number,
 }
 
 interface PostProps {
@@ -74,6 +76,11 @@ const Account = () => {
       load()
   }, [username])
 
+  const handleFollow = () => {
+    if (profile?.id)
+      followOrUnfollow(token?.access, profile.id, "follow")
+  }
+
   return (
     <div>
       <div className="
@@ -108,6 +115,7 @@ const Account = () => {
             font-bold text-[.9rem] text-white bg-black/80
             px-[.8rem] py-[.5rem] rounded-full cursor-pointer 
           "
+            onClick={handleFollow}
           >Follow</p>
         )}
       </div>
@@ -119,8 +127,8 @@ const Account = () => {
           Member since: {profile?.date_joined}
         </p>
         <div className="flex gap-[1rem] mt-[1rem]">
-          <FollowInfo number={121} text="Following" />
-          <FollowInfo number={21} text="Followers" />
+          <FollowInfo number={profile?.following_count ?? 0} text="Following" />
+          <FollowInfo number={profile?.followers_count ?? 0} text="Followers" />
         </div>
       </div>
       <div className="mt-[1rem] flex">
