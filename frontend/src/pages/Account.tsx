@@ -5,6 +5,7 @@ import { IoIosArrowRoundBack } from "react-icons/io"
 import testphoto2 from "../assets/5HdM0_7C_400x400.jpg"
 import showAlert from "../components/showAlert"
 import { FaRegCalendarAlt } from "react-icons/fa"
+import FollowInfo from "../components/account/FollowInfo"
 
 interface User {
   id: number,
@@ -59,28 +60,38 @@ const Account = () => {
           <p>0 posts</p>
         </div>
       </div>
-      <div className="w-full h-[13rem] bg-gray-300 relative">
+      <div className="w-full h-[10rem] bg-gray-300 relative">
         <img src={profile?.image ?? testphoto2} className="
           w-36 h-36 object-cover absolute rounded-full -bottom-18
-          left-10 border-[.3rem] border-white
+          left-5 border-[.3rem] border-white
         "/>
       </div>
       <div className="w-full h-[4rem] flex justify-end items-center pr-[2rem]">
-        {user?.email == profile?.email &&
+        {user?.email == profile?.email ? (
           <p className="
             font-bold text-[.9rem] border-1 border-gray-300 
             px-[.8rem] py-[.5rem] rounded-full cursor-pointer
           "
           >Set up profile</p>
-        }
+        ) : (
+          <p className="
+            font-bold text-[.9rem] text-white bg-black/80
+            px-[.8rem] py-[.5rem] rounded-full cursor-pointer 
+          "
+          >Follow</p>
+        )}
       </div>
       <div className="p-[1.2rem]">
         <p className="font-bold text-[1.2rem]">{profile?.username}</p>
         <p className="text-gray-500">{profile?.email}</p>
-        <p className="text-gray-500 mt-[.5rem] flex items-center gap-[.5rem] text-[1rem]">
+        <p className="text-gray-700 mt-[.5rem] flex items-center gap-[.5rem]">
           <FaRegCalendarAlt />
-          Joined: {profile?.date_joined}
+          Member since: {profile?.date_joined}
         </p>
+        <div className="flex gap-[1rem] mt-[1rem]">
+          <FollowInfo number={121} text="Following" />
+          <FollowInfo number={21} text="Followers" />
+        </div>
       </div>
     </div>
   )
