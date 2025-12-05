@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
-import { Navigate, NavLink, useParams } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import { IoIosArrowRoundBack } from "react-icons/io"
 import testphoto2 from "../assets/5HdM0_7C_400x400.jpg"
 import showAlert from "../components/showAlert"
+import { FaRegCalendarAlt } from "react-icons/fa"
 
 interface User {
   id: number,
   username: string,
   email: string,
   image?: string,
+  date_joined: string,
 }
 
 const Account = () => {
@@ -23,7 +25,10 @@ const Account = () => {
 
     try {
       const data = await loadByUsername(username)
-      setProfile(data)
+      setProfile({
+        ...data,
+        date_joined: new Date(data.date_joined).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })
+      })
 
       if (!user) {
         loadUser()
@@ -72,6 +77,10 @@ const Account = () => {
       <div className="p-[1.2rem]">
         <p className="font-bold text-[1.2rem]">{profile?.username}</p>
         <p className="text-gray-500">{profile?.email}</p>
+        <p className="text-gray-500 mt-[.5rem] flex items-center gap-[.5rem] text-[1rem]">
+          <FaRegCalendarAlt />
+          Joined: {profile?.date_joined}
+        </p>
       </div>
     </div>
   )
