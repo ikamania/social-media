@@ -12,21 +12,23 @@ import { createComment, fetchComments, deletePost } from "../../service/postServ
 import showAlert from "../showAlert.ts"
 import PostSettings from "./PostSettings.tsx"
 
-interface PostProps {
-  post: {
+export interface PostType {
+  id: number,
+  user: {
     id: number,
-    user: {
-      id: number,
-      username: string,
-      email: string,
-      image?: string,
-    },
-    content: string,
+    username: string,
+    email: string,
     image?: string,
-    liked: boolean,
-    likes: number,
-    comments_count: number,
-  }
+  },
+  content: string,
+  image?: string,
+  liked: boolean,
+  likes: number,
+  comments_count: number,
+}
+
+interface PostProps {
+  post: PostType
   commentsOn: boolean,
   likeTarget: "post" | "comment",
 }

@@ -8,7 +8,7 @@ import { FaRegCalendarAlt } from "react-icons/fa"
 import FollowInfo from "../components/account/FollowInfo"
 import Tab from "../components/account/Tab.tsx"
 import { fetchPostsByUsername, followOrUnfollow } from "../service/postService.ts"
-import Post from "../components/post/Post.tsx"
+import Post, { type PostType } from "../components/post/Post.tsx"
 
 interface User {
   id: number,
@@ -18,21 +18,7 @@ interface User {
   date_joined: string,
   following_count: number,
   followers_count: number,
-}
-
-interface PostProps {
-  id: number,
-  user: {
-    id: number,
-    username: string,
-    email: string,
-    image?: string,
-  },
-  content: string,
-  image?: string,
-  liked: boolean,
-  likes: number,
-  comments_count: number,
+  is_following: boolean,
 }
 
 const Account = () => {
@@ -41,7 +27,7 @@ const Account = () => {
   const [profile, setProfile] = useState<User | null>(null)
   const [activeTab, setActiveTab] = useState("Posts")
   const tabs = ["Posts", "Replies", "Media"];
-  const [posts, setPosts] = useState<PostProps[] | null>(null)
+  const [posts, setPosts] = useState<PostType[] | null>(null)
 
   const load = async () => {
     if (!username)
@@ -77,8 +63,18 @@ const Account = () => {
   }, [username])
 
   const handleFollow = () => {
-    if (profile?.id)
-      followOrUnfollow(token?.access, profile.id, "follow")
+    if (profile?.id) {
+      const target = profile?.is_following ? "unfollow" : "follow"
+
+      followOrUnfollow(
+        token?.access, profile.id, target
+      )
+      setProfile(prev => (prev) ? {
+        ...prev,
+        is_following: !prev.is_following,
+        followers_count: prev.followers_count + (target == "follow" ? 1 : -1)
+      } : prev)
+    }
   }
 
   return (
@@ -116,7 +112,7 @@ const Account = () => {
             px-[.8rem] py-[.5rem] rounded-full cursor-pointer 
           "
             onClick={handleFollow}
-          >Follow</p>
+          >{profile?.is_following ? "Unfollow" : "Follow"}</p>
         )}
       </div>
       <div className="p-[1.2rem]">

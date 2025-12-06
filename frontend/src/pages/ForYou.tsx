@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import Menu from "./Menu"
-import Post from "../components/post/Post"
+import Post, { type PostType } from "../components/post/Post"
 import { fetchPosts } from "../service/postService"
 import { useAuth } from "../context/AuthContext"
 import showAlert from "../components/showAlert"
 
 const ForYouFeed = () => {
   const { token, loadUser } = useAuth()
-  const [posts, setPosts] = useState<any[]>([])
+  const [posts, setPosts] = useState<PostType[] | null>(null)
 
   const getPosts = async () => {
     try {
@@ -39,7 +39,7 @@ const ForYouFeed = () => {
   return (
     <>
       <Menu />
-      {posts.map(post => (
+      {posts && posts.map(post => (
         <Post
           key={post.id}
           post={post}

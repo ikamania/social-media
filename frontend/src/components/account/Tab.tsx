@@ -8,10 +8,10 @@ const Tab = ({ label, activeTab, onClick }: TabProps) => {
   const isActive = label == activeTab
 
   return (
-    <div className="w-full h-[2rem] flex justify-center cursor-pointer">
+    <div className="w-full h-[2rem] flex justify-center">
       <p
         className={
-          `font-medium relative
+          `font-medium relative cursor-pointer
         ${isActive ? "text-black" : "text-gray-500"}`
         }
         onClick={onClick}

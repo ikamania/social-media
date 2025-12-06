@@ -174,10 +174,8 @@ export const followOrUnfollow = async (tokenAccess: string, id: number, target: 
       },
     })
 
-    if (response.ok) {
-      showAlert("success", `${target}ed`)
-    } else
-      throw new Error("bad response")
+    if (!response)
+      showAlert("error", "bad response")
 
   } catch {
     showAlert("error", "internal error")
