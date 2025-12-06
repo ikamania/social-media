@@ -9,17 +9,8 @@ import FollowInfo from "../components/account/FollowInfo"
 import Tab from "../components/account/Tab.tsx"
 import { fetchPostsByUsername, followOrUnfollow } from "../service/postService.ts"
 import Post, { type PostType } from "../components/post/Post.tsx"
+import ProfileEditPopUp, { type User } from "../components/account/ProfileEditPopUp.tsx"
 
-interface User {
-  id: number,
-  username: string,
-  email: string,
-  image?: string,
-  date_joined: string,
-  following_count: number,
-  followers_count: number,
-  is_following: boolean,
-}
 
 const Account = () => {
   const { username } = useParams()
@@ -28,6 +19,7 @@ const Account = () => {
   const [activeTab, setActiveTab] = useState("Posts")
   const tabs = ["Posts", "Replies", "Media"];
   const [posts, setPosts] = useState<PostType[] | null>(null)
+  const [profileSetUp, setProfileSetUp] = useState(false)
 
   const load = async () => {
     if (!username)
@@ -79,6 +71,7 @@ const Account = () => {
 
   return (
     <div>
+      {profileSetUp && profile && <ProfileEditPopUp setHidden={setProfileSetUp} user={profile} />}
       <div className="
         w-full h-[4rem] text-[2rem] flex items-center p-[1rem]
         gap-[2.5rem]
@@ -105,6 +98,7 @@ const Account = () => {
             font-bold text-[.9rem] border-1 border-gray-300 
             px-[.8rem] py-[.5rem] rounded-full cursor-pointer
           "
+            onClick={() => setProfileSetUp(prev => !prev)}
           >Set up profile</p>
         ) : (
           <p className="

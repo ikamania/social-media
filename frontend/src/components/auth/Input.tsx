@@ -1,11 +1,12 @@
 interface InputProps {
-  type: string
-  placeholder?: string
-  value?: string
-  onChange?: (value: string) => void
+  type: string,
+  placeholder?: string,
+  value?: string,
+  onChange?: (value: string) => void,
+  disabled?: boolean,
 }
 
-const Input = ({ type, placeholder, value, onChange }: InputProps) => {
+const Input = ({ type, placeholder, value, onChange, disabled }: InputProps) => {
   return (
     <div className="relative py-[.5rem]">
       <input
@@ -13,6 +14,7 @@ const Input = ({ type, placeholder, value, onChange }: InputProps) => {
         type={type} placeholder=""
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
+        disabled={disabled}
       />
       <label
         className="
