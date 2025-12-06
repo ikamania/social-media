@@ -2,21 +2,11 @@ import type { SetStateAction, Dispatch } from "react"
 import CloseButton from "../post/CloseButton"
 import Input from "../auth/Input.tsx"
 import showAlert from "../showAlert.ts"
+import type { User } from "../../types/user.ts"
 
 interface ProfileEditPopUpProps {
   setHidden: Dispatch<SetStateAction<boolean>>,
   user: User,
-}
-
-export interface User {
-  id: number,
-  username: string,
-  email: string,
-  image?: string,
-  date_joined: string,
-  following_count: number,
-  followers_count: number,
-  is_following: boolean,
 }
 
 const ProfileEditPopUp = ({ setHidden, user }: ProfileEditPopUpProps) => {

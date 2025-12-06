@@ -4,43 +4,29 @@ import { FaRegComment } from "react-icons/fa"
 import { FaRegHeart } from "react-icons/fa"
 import Reaction from "./Reaction.tsx"
 import { useAuth } from "../../context/AuthContext.tsx"
-import { toggleLike } from "../../service/postService"
+import { toggleLike } from "../../service/postService.ts"
 import { useState, useEffect } from "react"
 import UploadBox from "./UploadBox.tsx"
 import CloseButton from "./CloseButton.tsx"
 import { createComment, fetchComments, deletePost } from "../../service/postService.ts"
 import showAlert from "../showAlert.ts"
 import PostSettings from "./PostSettings.tsx"
-
-export interface PostType {
-  id: number,
-  user: {
-    id: number,
-    username: string,
-    email: string,
-    image?: string,
-  },
-  content: string,
-  image?: string,
-  liked: boolean,
-  likes: number,
-  comments_count: number,
-}
+import type { Post } from "../../types/post.ts"
 
 interface PostProps {
-  post: PostType
+  post: Post
   commentsOn: boolean,
   likeTarget: "post" | "comment",
 }
 
-const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
+const PostCard = ({ post, commentsOn, likeTarget }: PostProps) => {
   const { token, user } = useAuth()
   const [likes, setLikes] = useState(post.likes)
   const [liked, setLiked] = useState(post.liked)
   const [showComments, setShowComments] = useState(false)
-  const [comments, setComments] = useState<any[]>([])
+  const [comments, setComments] = useState<Post[]>([])
   const [getComments, setGetComments] = useState(false)
-  const [commentCount, setCommentCount] = useState(post.comments_count)
+  const [commentsCount, setCommentsCount] = useState(null)
 
   const commentToggle = () => {
     setShowComments((prev: boolean) => !prev)
@@ -49,12 +35,12 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
       setGetComments(true)
   }
 
-  // improvment >
   const getSetComments = async () => {
     try {
       const data = await fetchComments(token.access, post.id)
-      console.log(data)
+
       setComments(data)
+      setCommentsCount(data.length)
     } catch {
       showAlert("error", "internal error")
     }
@@ -68,7 +54,6 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   useEffect(() => {
     const handler = () => {
       getSetComments()
-      setCommentCount(prev => prev + 1)
     }
     window.addEventListener("new comment", handler)
 
@@ -76,7 +61,6 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
       window.removeEventListener("new comment", handler)
     }
   }, [])
-  // improvment ^
 
   return (
     <div className="
@@ -113,7 +97,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
           {commentsOn && (
             <Reaction
               icon={FaRegComment}
-              number={commentCount}
+              number={commentsCount || post.comments_count}
               onClick={commentToggle}
             />
           )}
@@ -141,7 +125,7 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
                 css="bottom-1 font-bold text-[.8rem]"
               />
               {comments.map(comment => (
-                <Post
+                <PostCard
                   key={comment.id}
                   post={comment}
                   commentsOn={false}
@@ -156,4 +140,4 @@ const Post = ({ post, commentsOn, likeTarget }: PostProps) => {
   )
 }
 
-export default Post
+export default PostCard

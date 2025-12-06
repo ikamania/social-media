@@ -8,7 +8,8 @@ import { FaRegCalendarAlt } from "react-icons/fa"
 import FollowInfo from "../components/account/FollowInfo"
 import Tab from "../components/account/Tab.tsx"
 import { fetchPostsByUsername, followOrUnfollow } from "../service/postService.ts"
-import Post, { type PostType } from "../components/post/Post.tsx"
+import PostCard from "../components/post/PostCard.tsx"
+import { type Post } from "../types/post.ts"
 import ProfileEditPopUp, { type User } from "../components/account/ProfileEditPopUp.tsx"
 
 
@@ -18,7 +19,7 @@ const Account = () => {
   const [profile, setProfile] = useState<User | null>(null)
   const [activeTab, setActiveTab] = useState("Posts")
   const tabs = ["Posts", "Replies", "Media"];
-  const [posts, setPosts] = useState<PostType[] | null>(null)
+  const [posts, setPosts] = useState<Post[] | null>(null)
   const [profileSetUp, setProfileSetUp] = useState(false)
 
   const load = async () => {
@@ -133,7 +134,7 @@ const Account = () => {
       </div>
       <div className="">
         {activeTab == "Posts" && posts?.map(post => (
-          <Post
+          <PostCard
             key={post.id}
             post={post}
             commentsOn={true}

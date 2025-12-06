@@ -55,7 +55,7 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
 
   return (
     <div className="w-full p-[1rem] flex border-b-1 border-gray-100">
-      <ProfilePicture image={user?.image} to={user?.username} />
+      <ProfilePicture image={user?.image} to={user?.username || "/"} />
 
       <div className="w-full">
         <div className="w-full flex-row items-center">
