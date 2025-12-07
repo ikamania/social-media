@@ -11,7 +11,7 @@ const Auth = () => {
 
         <AuthBox to="/auth/login" text="Sign in" />
         <Or />
-        <AuthBox to="/auth/register" text="Create account" css="bg-black text-white" />
+        <AuthBox to="/auth/register" text="Create account" css="bg-black text-white hover:!bg-black/80" />
         <p className="text-[.7rem] text-gray-400 px-[.5rem]">
           By signing up, you agree to the <Link text="Terms of Service " />
           and <Link text="Privacy Policy," /> including <Link text="Cookie Use." />

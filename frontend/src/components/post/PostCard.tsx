@@ -69,7 +69,7 @@ const PostCard = ({ post, commentsOn, likeTarget }: PostProps) => {
       <ProfilePicture image={post.user.image} to={post.user.username} />
 
       <div className="flex-col w-full">
-        <div className="mb-[.5rem]">
+        <div>
           <div className="relative flex gap-[.5rem] text-[.9rem]">
             <p className="font-bold">{post.user.username}</p>
             <p className="text-gray-500">{post.user.email}</p>
@@ -87,18 +87,19 @@ const PostCard = ({ post, commentsOn, likeTarget }: PostProps) => {
           </div>
         </div>
 
-        <div className="flex justify-start pt-1">
+        <div className="flex justify-start py-1">
           {post.image && (
             <img src={post.image} alt="photo here" className="w-[30rem] object-cover rounded-2xl" />
           )}
         </div>
 
-        <div className="mt-2 text-gray-500 flex gap-[3rem]">
+        <div className="text-gray-500 flex gap-[2rem]">
           {commentsOn && (
             <Reaction
               icon={FaRegComment}
               number={commentsCount || post.comments_count}
               onClick={commentToggle}
+              color="blue"
             />
           )}
           <Reaction
@@ -111,7 +112,8 @@ const PostCard = ({ post, commentsOn, likeTarget }: PostProps) => {
               setLiked(newLiked)
               setLikes(prev => (newLiked ? prev + 1 : prev - 1))
             }}
-            css={`${liked ? "text-red-700" : "text-gray-500"}`}
+            color="red"
+            css={`${liked ? "text-red-700" : ""}`}
           />
         </div>
 

@@ -10,7 +10,8 @@ import Tab from "../components/account/Tab.tsx"
 import { fetchPostsByUsername, followOrUnfollow } from "../service/postService.ts"
 import PostCard from "../components/post/PostCard.tsx"
 import { type Post } from "../types/post.ts"
-import ProfileEditPopUp, { type User } from "../components/account/ProfileEditPopUp.tsx"
+import { type User } from "../types/user.ts"
+import ProfileEditPopUp from "../components/account/ProfileEditPopUp.tsx"
 
 
 const Account = () => {
@@ -98,6 +99,7 @@ const Account = () => {
           <p className="
             font-bold text-[.9rem] border-1 border-gray-300 
             px-[.8rem] py-[.5rem] rounded-full cursor-pointer
+            hover:bg-gray-100 transition-colors duration-300
           "
             onClick={() => setProfileSetUp(prev => !prev)}
           >Set up profile</p>
@@ -105,6 +107,7 @@ const Account = () => {
           <p className="
             font-bold text-[.9rem] text-white bg-black/80
             px-[.8rem] py-[.5rem] rounded-full cursor-pointer 
+            hover:bg-black transition-colors duration-300
           "
             onClick={handleFollow}
           >{profile?.is_following ? "Unfollow" : "Follow"}</p>
@@ -125,10 +128,9 @@ const Account = () => {
       <div className="mt-[1rem] flex">
         {tabs.map((tab) => (
           <Tab
-            key={tab}
             label={tab}
-            activeTab={activeTab}
-            onClick={() => setActiveTab(tab)}
+            active={tab == activeTab}
+            onClick={() => { setActiveTab(tab) }}
           />
         ))}
       </div>

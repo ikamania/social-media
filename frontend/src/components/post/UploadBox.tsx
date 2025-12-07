@@ -5,6 +5,7 @@ import { useRef, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import showAlert from "../showAlert"
 import CloseButton from "./CloseButton.tsx"
+import PostIcon from "./PostIcon.tsx"
 
 interface UploadBoxProps {
   upload: (token: string, content: string, file?: File, postId?: number) => Promise<void>,
@@ -33,8 +34,10 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
       return
     const content = textRef.current.value.trim()
 
-    if (!content)
+    if (!content) {
       showAlert("error", "post can not be emty")
+      return
+    }
 
     try {
       await upload(access, content, selectedImage ?? undefined, postId ?? undefined)
@@ -51,6 +54,10 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
     if (e.target.files && e.target.files[0]) {
       setSelectedImage(e.target.files[0])
     }
+  }
+
+  const handleEmojiClick = () => {
+    console.log("emoji clicked")
   }
 
   return (
@@ -85,11 +92,10 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
 
         <div className="w-full flex justify-between">
           <div className="
-          flex items-center text-blue-400 text-[1.2rem]
-          gap-2
+          flex items-center           gap-2
         ">
-            <FaRegImage
-              className="cursor-pointer"
+            <PostIcon
+              icon={FaRegImage}
               onClick={() => fileRef.current?.click()}
             />
             <input
@@ -99,13 +105,17 @@ const UploadBox = ({ upload, buttonText, placeholder, postId }: UploadBoxProps) 
               ref={fileRef}
               onChange={handleImageSelect}
             />
-            <FaRegSmileBeam className="cursor-pointer" />
+            <PostIcon
+              icon={FaRegSmileBeam}
+              onClick={handleEmojiClick}
+            />
           </div>
           <button
             onClick={handlePost}
             className="
           w-[4rem] h-[2rem] text-white font-bold bg-gray-400
-          rounded-2xl p-[.3rem] cursor-pointer
+          hover:bg-gray-500 transition-colors duration-300
+          rounded-2xl cursor-pointer
         ">{buttonText}</button>
         </div>
       </div>

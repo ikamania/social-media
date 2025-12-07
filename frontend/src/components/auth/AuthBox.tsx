@@ -14,6 +14,7 @@ const AuthBox = ({ text, css, icon: Icon, ...props }: AuthBoxProps) => {
       className={`
         w-full h-[2.7rem] rounded-full flex justify-center items-center cursor-pointer
         my-[1rem] text-[.9rem] font-bold border-1 border-gray-200 ${css ?? ""}
+        transition-all duration-300 hover:bg-gray-100
       `}>
       {Icon && <Icon color="black" size={22} className="mr-[.5rem]" />}
       {text}

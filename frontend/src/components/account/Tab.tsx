@@ -1,26 +1,28 @@
 interface TabProps {
   label: string,
-  activeTab: string,
+  active: boolean,
   onClick: () => void,
 }
 
-const Tab = ({ label, activeTab, onClick }: TabProps) => {
-  const isActive = label == activeTab
-
+const Tab = ({ label, active, onClick }: TabProps) => {
   return (
     <div className="w-full h-[2rem] flex justify-center">
-      <p
-        className={
-          `font-medium relative cursor-pointer
-        ${isActive ? "text-black" : "text-gray-500"}`
-        }
-        onClick={onClick}
-      >
-        {label}
-        {isActive && (
-          <span className="absolute w-full h-1 left-0 bottom-0 bg-blue-400 rounded-full"></span>
-        )}
-      </p>
+      <div className="flex flex-col items-center gap-1">
+        <p
+          className={
+            `font-medium cursor-pointer w-fit transition-color
+            ${active ? "text-black" : "text-gray-500"}`
+          }
+          onClick={onClick}
+        >
+          {label}
+        </p>
+        <hr className={`
+        h-[.2rem] bg-blue-400 border-0
+        transition-all duration-300 w-0
+        ${active ? "w-full" : "w-0"}
+      `}></hr>
+      </div>
     </div>
   )
 }

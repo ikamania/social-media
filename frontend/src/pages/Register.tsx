@@ -25,7 +25,7 @@ const Register = () => {
           <Input type="text" placeholder="Email" value={email} onChange={setEmail} />
           <Input type="password" placeholder="Password" value={password} onChange={setPassword} />
           <button className="w-full" onClick={handleRegister}>
-            <AuthBox text="Register" to="/auth/register" css="bg-black text-white" />
+            <AuthBox text="Register" to="/auth/register" css="bg-black text-white hover:!bg-black/80" />
           </button>
         </div>
         <p className="pt-[2rem] mb-[1rem] text-[.9rem] font-bold">Already have an account?</p>

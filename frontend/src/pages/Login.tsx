@@ -31,7 +31,7 @@ const Login = () => {
           <Input type="text" placeholder="Email" value={email} onChange={setEmail} />
           <Input type="password" placeholder="Password" value={password} onChange={setPassword} />
           <button className="w-full" onClick={handleLogin}>
-            <AuthBox text="Next" to="/auth/" css="text-white bg-black" />
+            <AuthBox text="Next" to="/auth/" css="text-white bg-black hover:!bg-black/80" />
           </button>
         </div>
         <p className="text-[.9rem] text-gray-400 px-[.5rem] pt-[1rem]">

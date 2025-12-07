@@ -21,7 +21,8 @@ const PostSettings = ({ handleDelete }: PostSettingsProps) => {
             className="
             absolute top-[1rem] right-[2rem] bg-gray-100 w-[4rem] h-[1.5rem]
             flex justify-center items-center rounded-full text-[1rem]
-            cursor-pointer"
+            cursor-pointer hover:bg-gray-200 transition-colors duration-300
+            "
             onClick={handleDelete}
           >
             <RiDeleteBinLine />

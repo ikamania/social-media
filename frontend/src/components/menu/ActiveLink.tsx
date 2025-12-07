@@ -8,13 +8,16 @@ const ActiveLink = ({ children, ...props }: ActiveLinkProps) => {
   return (
     <NavLink
       {...props}
-      className="w-full h-full flex justify-center hover:bg-gray-200"
+      className="
+        w-full h-full flex justify-center hover:bg-gray-200
+        tranisiton-colors duration-300
+      "
     >
       {({ isActive }) => (
         <span className={`relative flex items-center h-full ${isActive ? "font-bold" : "text-gray-500 font-medium"}`}>
           {children}
           {isActive && (
-            <span className="absolute h-1 w-full left-0 bottom-0 bg-blue-400 rounded-full"></span>
+            <span className="absolute h-[.25rem] w-full left-0 bottom-0 bg-blue-400 rounded-full"></span>
           )}
         </span>
       )
