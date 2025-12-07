@@ -6,12 +6,14 @@ import { useState } from "react"
 
 const Register = () => {
   const { register } = useAuth()
-  const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [surname, setSurname] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   const handleRegister = () => {
-    register(username, email, password)
+    register(email, username, name, surname, password)
   }
 
   return (
@@ -21,8 +23,10 @@ const Register = () => {
         <p className="mb-[1rem] text-[1.5rem] font-bold">Create your account</p>
 
         <div className="px-[1rem]">
-          <Input type="text" placeholder="Name" value={username} onChange={setUsername} />
           <Input type="text" placeholder="Email" value={email} onChange={setEmail} />
+          <Input type="text" placeholder="Username" value={username} onChange={setUsername} />
+          <Input type="text" placeholder="Name" value={name} onChange={setName} />
+          <Input type="text" placeholder="Surname" value={surname} onChange={setSurname} />
           <Input type="password" placeholder="Password" value={password} onChange={setPassword} />
           <button className="w-full" onClick={handleRegister}>
             <AuthBox text="Register" to="/auth/register" css="bg-black text-white hover:!bg-black/80" />

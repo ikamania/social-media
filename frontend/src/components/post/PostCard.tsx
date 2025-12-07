@@ -71,8 +71,8 @@ const PostCard = ({ post, commentsOn, likeTarget }: PostProps) => {
       <div className="flex-col w-full">
         <div>
           <div className="relative flex gap-[.5rem] text-[.9rem]">
-            <p className="font-bold">{post.user.username}</p>
-            <p className="text-gray-500">{post.user.email}</p>
+            <p className="font-bold">{post.user.name} {post.user.surname}</p>
+            <p className="text-gray-500">@{post.user.username}</p>
 
             {post.user.email == user?.email && (
               <PostSettings

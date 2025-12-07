@@ -71,6 +71,9 @@ const Account = () => {
     }
   }
 
+  if (!profile || !user)
+    return <p>LOADING</p>
+
   return (
     <div>
       {profileSetUp && profile && <ProfileEditPopUp setHidden={setProfileSetUp} user={profile} />}
@@ -84,7 +87,7 @@ const Account = () => {
         <div className="relative text-[.8rem] text-gray-500">
           <p
             className="text-[1.3rem] text-black font-bold"
-          >{profile?.username}</p>
+          >{profile?.name} {profile?.surname}</p>
           <p>0 posts</p>
         </div>
       </div>

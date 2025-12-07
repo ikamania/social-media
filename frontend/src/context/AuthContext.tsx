@@ -1,26 +1,18 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
 import { useNavigate } from "react-router-dom"
 import showAlert from "../components/showAlert"
+import { type User } from "../types/user.ts"
 
 interface AuthContextType {
   token: any | null,
   setToken: (token: any | null) => void,
   login: (email: string, password: string) => Promise<void>,
   logout: () => void,
-  register: (username: string, email: string, password: string) => Promise<void>,
+  register: (email: string, username: string, name: string, surname: string, password: string) => Promise<void>,
   validToken: () => Promise<boolean>,
   loadUser: () => void,
   loadByUsername: (username: string) => Promise<any>,
   user: User | null,
-}
-
-interface User {
-  username: string,
-  email: string,
-  image?: string,
-  date_joined: string,
-  followers_count: number,
-  following_count: number,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -87,8 +79,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  const register = async (username: string, email: string, password: string) => {
-    if (!username || !email || !password) {
+  const register = async (email: string, username: string, name: string, surname: string, password: string) => {
+    if (!email || !username || !name || !surname || !password) {
       showAlert("error", "fill out all forms")
       return
     }
@@ -98,8 +90,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: username,
           email: email,
+          username: username,
+          name: name,
+          surname: surname,
           password: password,
         })
       })

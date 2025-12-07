@@ -24,8 +24,8 @@ const Login = () => {
       <div className="p-[3rem]">
         <p className="text-[1.5rem] font-bold">Sign in</p>
 
-        <AuthBox text="Sign in with Google" icon={FcGoogle} to="/auth/login/" css="text-gray-500" />
-        <AuthBox text="Sign in with Apple" icon={FaApple} to="/auth/login/" css="text-gray-500" />
+        <AuthBox text="Sign in with Google" icon={FcGoogle} to="/auth/login" css="text-gray-500" />
+        <AuthBox text="Sign in with Apple" icon={FaApple} to="/auth/login" css="text-gray-500" />
         <Or />
         <div className="px-[1.3rem] mt-[1rem]">
           <Input type="text" placeholder="Email" value={email} onChange={setEmail} />
