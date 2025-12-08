@@ -13,6 +13,7 @@ interface AuthContextType {
   loadUser: () => void,
   loadByUsername: (username: string) => Promise<any>,
   user: User | null,
+  updateUser: (formData: FormData) => Promise<any>,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -110,6 +111,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const updateUser = async (formData: FormData) => {
+    try {
+      const response = await fetch(`${url}/users/${user?.id}/`, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+          "Authorization": `Bearer ${token?.access}`,
+        },
+      })
+
+      if (!response) {
+        showAlert("error", "failed to update user")
+      } else {
+        showAlert("success", "updated user")
+        navigate("/")
+      }
+    } catch {
+      showAlert("error", "internal error")
+    }
+  }
+
   const login = async (email: string, password: string) => {
     try {
       const response = await fetch(`${url}/api/token/`, {
@@ -190,7 +212,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken, loadUser, loadByUsername, user }}>
+    <AuthContext.Provider value={{ token, setToken, login, logout, register, validToken, loadUser, loadByUsername, user, updateUser }}>
       {children}
     </AuthContext.Provider>
   )
