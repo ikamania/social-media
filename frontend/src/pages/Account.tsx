@@ -7,13 +7,14 @@ import showAlert from "../components/showAlert"
 import { FaRegCalendarAlt } from "react-icons/fa"
 import FollowInfo from "../components/account/FollowInfo"
 import Tab from "../components/account/Tab.tsx"
-import { fetchPostsByUsername, followOrUnfollow } from "../service/postService.ts"
+import { followOrUnfollow, getFollowersOrFollowing } from "../service/userService.ts"
+import { fetchPostsByUsername } from "../service/postService.ts"
 import PostCard from "../components/post/PostCard.tsx"
 import { type Post } from "../types/post.ts"
 import { type User } from "../types/user.ts"
 import ProfileEditPopUp from "../components/account/ProfileEditPopUp.tsx"
 import Loading from "./Loading.tsx"
-
+import { type SimpleUser, FollowBox } from "../components/account/FollowBox.tsx"
 
 const Account = () => {
   const { username } = useParams()
@@ -23,6 +24,11 @@ const Account = () => {
   const tabs = ["Posts", "Replies", "Media"];
   const [posts, setPosts] = useState<Post[] | null>(null)
   const [profileSetUp, setProfileSetUp] = useState(false)
+  const [showFollowers, setShowFollowers] = useState(false)
+  const [showFollowing, setShowFollowing] = useState(false)
+  const [followers, setFollowers] = useState<SimpleUser[] | []>([])
+  const [following, setFollowing] = useState<SimpleUser[] | []>([])
+
 
   const load = async () => {
     if (!username)
@@ -53,9 +59,27 @@ const Account = () => {
   }
 
   useEffect(() => {
-    if (!profile)
-      load()
+    load()
   }, [username])
+
+  const handleFollowing = async () => {
+    if (following.length == 0 && profile) {
+      const data = await getFollowersOrFollowing(token.access, profile.id, "following")
+
+      setFollowing(data)
+      console.log(data)
+    }
+    setShowFollowing(true)
+  }
+
+  const handleFollowers = async () => {
+    if (followers.length == 0 && profile) {
+      const data = await getFollowersOrFollowing(token.access, profile.id, "followers")
+
+      setFollowers(data)
+    }
+    setShowFollowers(true)
+  }
 
   const handleFollow = () => {
     if (profile?.id) {
@@ -78,6 +102,9 @@ const Account = () => {
   return (
     <div>
       {profileSetUp && profile && <ProfileEditPopUp setHidden={setProfileSetUp} user={profile} />}
+      {showFollowers && <FollowBox label="Followers" count={profile.followers_count} users={followers} onClose={() => setShowFollowers(false)} />}
+      {showFollowing && <FollowBox label="Following" count={profile.following_count} users={following} onClose={() => setShowFollowing(false)} />}
+
       <div className="
         w-full h-[4rem] text-[2rem] flex items-center p-[1rem]
         gap-[2.5rem]
@@ -89,7 +116,7 @@ const Account = () => {
           <p
             className="text-[1.3rem] text-black font-bold"
           >{profile?.name} {profile?.surname}</p>
-          <p>0 posts</p>
+          <p>{posts?.length} posts</p>
         </div>
       </div>
       <div className="w-full h-[10rem] bg-gray-300 relative">
@@ -98,7 +125,7 @@ const Account = () => {
           left-5 border-[.3rem] border-white
         "/>
       </div>
-      <div className="w-full h-[4rem] flex justify-end items-center pr-[2rem]">
+      <div className="w-full h-[4rem] flex justify-end items-center pr-[1rem]">
         {user?.email == profile?.email ? (
           <p className="
             font-bold text-[.9rem] border-1 border-gray-300 
@@ -125,13 +152,22 @@ const Account = () => {
           Member since: {profile?.date_joined}
         </p>
         <div className="flex gap-[1rem] mt-[1rem]">
-          <FollowInfo number={profile?.following_count ?? 0} text="Following" />
-          <FollowInfo number={profile?.followers_count ?? 0} text="Followers" />
+          <FollowInfo
+            number={profile?.following_count ?? 0}
+            text="Following"
+            onClick={handleFollowing}
+          />
+          <FollowInfo
+            number={profile?.followers_count ?? 0}
+            text="Followers"
+            onClick={handleFollowers}
+          />
         </div>
       </div>
       <div className="mt-[1rem] flex">
         {tabs.map((tab) => (
           <Tab
+            key={tab}
             label={tab}
             active={tab == activeTab}
             onClick={() => { setActiveTab(tab) }}
