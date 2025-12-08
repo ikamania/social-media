@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, status
 
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, SimpleUserSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -65,7 +65,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def followers(self, request, pk=None):
         user = self.get_object()
         qs = user.followers.all()
-        serializer = UserSerializer(qs, many=True, context={"request": request})
+        serializer = SimpleUserSerializer(qs, many=True, context={"request": request})
 
         return Response(serializer.data)
 
@@ -75,6 +75,6 @@ class UserViewSet(viewsets.ModelViewSet):
     def following(self, request, pk=None):
         user = self.get_object()
         qs = user.following.all()
-        serializer = UserSerializer(qs, many=True, context={"request": request})
+        serializer = SimpleUserSerializer(qs, many=True, context={"request": request})
 
         return Response(serializer.data)
