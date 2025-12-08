@@ -6,6 +6,7 @@ import Following from './pages/Following.tsx'
 import Auth from './pages/Auth.tsx'
 import Login from './pages/Login.tsx'
 import Register from './pages/Register.tsx'
+import Loading from './pages/Loading.tsx'
 import { useAuth } from './context/AuthContext.tsx'
 import { useEffect, useState } from 'react'
 
@@ -27,7 +28,7 @@ function App() {
     }, [])
 
     if (allowed === null)
-      return <div className="w-full justify-center">LOADING...</div>
+      return <Loading />
 
     if (!allowed)
       return <Navigate to="/auth" />

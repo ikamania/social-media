@@ -12,6 +12,7 @@ import PostCard from "../components/post/PostCard.tsx"
 import { type Post } from "../types/post.ts"
 import { type User } from "../types/user.ts"
 import ProfileEditPopUp from "../components/account/ProfileEditPopUp.tsx"
+import Loading from "./Loading.tsx"
 
 
 const Account = () => {
@@ -72,7 +73,7 @@ const Account = () => {
   }
 
   if (!profile || !user)
-    return <p>LOADING</p>
+    return <Loading />
 
   return (
     <div>
