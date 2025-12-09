@@ -11,7 +11,16 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ["id", "user", "content", "image", "likes", "liked", "comments_count"]
+        fields = [
+            "id",
+            "user",
+            "content",
+            "image",
+            "likes",
+            "liked",
+            "comments_count",
+            "created_at",
+        ]
 
     def get_liked(self, obj):
         user = self.context.get("request").user
@@ -27,7 +36,16 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ["id", "user", "post", "content", "image", "likes", "liked"]
+        fields = [
+            "id",
+            "user",
+            "post",
+            "content",
+            "image",
+            "likes",
+            "liked",
+            "created_at",
+        ]
         read_only_fields = ["user", "created_at"]
 
     def get_liked(self, obj):
