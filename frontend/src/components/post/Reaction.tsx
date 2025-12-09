@@ -14,7 +14,8 @@ const Reaction = ({ icon: Icon, number, onClick, css, color }: ReactionProps) =>
       className={`
           w-fit h-fit p-[.5rem] rounded-full flex justify-center items-center
           cursor-pointer  transition-colors duration-300 relative
-          hover:text-${color}-700 hover:bg-${color}-400/40
+          ${color == "blue" ? "hover:text-blue-700 hover:bg-blue-400/40" : ""}
+          ${color == "red" ? "hover:text-red-700 hover:bg-red-400/40" : ""}
           ${css}
         `}
       onClick={onClick}
