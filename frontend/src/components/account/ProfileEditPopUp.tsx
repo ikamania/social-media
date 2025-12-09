@@ -6,6 +6,7 @@ import showAlert from "../showAlert.ts"
 import type { User } from "../../types/user.ts"
 import testphoto2 from "../../assets/5HdM0_7C_400x400.jpg"
 import { useAuth } from "../../context/AuthContext.tsx"
+import { RiLogoutBoxLine } from "react-icons/ri"
 
 interface ProfileEditPopUpProps {
   setHidden: Dispatch<SetStateAction<boolean>>,
@@ -18,7 +19,7 @@ const ProfileEditPopUp = ({ setHidden, user }: ProfileEditPopUpProps) => {
   const [surname, setSurname] = useState("")
   const fileRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
-  const { updateUser } = useAuth()
+  const { updateUser, logout } = useAuth()
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -56,6 +57,12 @@ const ProfileEditPopUp = ({ setHidden, user }: ProfileEditPopUpProps) => {
           text="×"
           onClick={() => setHidden(false)}
           css="top-2 right-2"
+        />
+        <RiLogoutBoxLine
+          className="
+            text-[1.5rem] absolute top-2 left-2 text-gray-500
+            cursor-pointer"
+          onClick={logout}
         />
 
         <div className="relative w-full h-fit">

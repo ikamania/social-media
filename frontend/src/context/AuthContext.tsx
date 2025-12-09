@@ -161,7 +161,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem("token")
 
     showAlert("success", "logged out")
-    navigate("/")
+
+    setTimeout(() => {
+      window.location.href = "/"
+    }, 1500)
   }
 
   const validToken = async (): Promise<boolean> => {
