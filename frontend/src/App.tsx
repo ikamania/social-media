@@ -37,8 +37,8 @@ function App() {
   }
 
   return (
-    <div className="w-screen min-h-screen flex justify-center">
-      <div className="w-full max-w-[40rem] border-1 border-gray-100">
+    <div className="w-screen min-w-[20rem] min-h-screen flex justify-center">
+      <div className="w-full max-w-[35rem] border-1 border-gray-100">
         <Routes>
           <Route path='/' element={
             <ProtectedRoute>

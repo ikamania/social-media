@@ -13,4 +13,5 @@ export interface Post {
   liked: boolean,
   likes: number,
   comments_count: number,
+  created_at: string,
 }

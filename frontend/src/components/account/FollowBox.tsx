@@ -38,7 +38,7 @@ export const FollowBox = ({ label, count, users, onClose }: FollowBoxProps) => {
                 src={user.image || testphoto2}
                 className="w-[2.5rem] h-[2.5rem] mr-[.4rem] rounded-full cursor-pointer"
               />
-              <p>{user.username}</p>
+              <p>@{user.username}</p>
             </div>
           ))}
         </div>

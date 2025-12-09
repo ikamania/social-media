@@ -6,7 +6,7 @@ import { createPost } from "../service/postService"
 const Menu = () => {
   return (
     <>
-      <div className="md:hidden">
+      <div>
         <Top />
       </div>
 
