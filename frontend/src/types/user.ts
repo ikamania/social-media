@@ -10,3 +10,10 @@ export interface User {
   followers_count: number,
   is_following: boolean,
 }
+
+export interface SimpleUser {
+  username: string,
+  name: string,
+  surname: string,
+  image: string,
+}
