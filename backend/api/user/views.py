@@ -5,6 +5,7 @@ from .serializers import UserSerializer, SimpleUserSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -77,4 +78,18 @@ class UserViewSet(viewsets.ModelViewSet):
         qs = user.following.all()
         serializer = SimpleUserSerializer(qs, many=True, context={"request": request})
 
+        return Response(serializer.data)
+
+    @action(
+        detail=False, methods=["get"], permission_classes=[permissions.IsAuthenticated]
+    )
+    def search(self, request):
+        q = request.query_params.get("q", "").strip()
+        if not q:
+            return Response([])
+        users = User.objects.filter(
+            Q(username__icontains=q) | Q(name__icontains=q) | Q(surname__icontains=q)
+        )
+
+        serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
