@@ -1,5 +1,6 @@
 import type { SimpleUser } from "../../types/user"
 import testphoto2 from "../../assets/5HdM0_7C_400x400.jpg"
+import "../../style/global.css"
 
 interface SimpleUserBoxProps {
   user: SimpleUser
@@ -11,7 +12,10 @@ const SimpleUserBox = ({ user }: SimpleUserBoxProps) => {
   }
 
   return (
-    <div className="flex font-medium text-[.9rem] items-center">
+    <div className="
+      flex font-medium text-[.9rem] items-center whitespace-nowrap
+      overflow-x-auto scrollbar-hide
+    ">
       <img
         onClick={goToUser}
         src={user.image || testphoto2}

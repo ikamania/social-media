@@ -1,6 +1,7 @@
 import { useAuth } from "../../context/AuthContext"
 import ProfilePicture from "../post/ProfilePicture"
 import { TbLetterM } from "react-icons/tb"
+import Search from "./Search.tsx"
 
 const Top = () => {
   const { user } = useAuth()
@@ -16,6 +17,7 @@ const Top = () => {
         text-[1.7rem] absolute left-1/2 -translate-x-1/2
         top-1/2 -translate-y-1/2
       " />
+      <Search />
     </div>
   )
 }

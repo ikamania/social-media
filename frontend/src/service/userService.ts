@@ -22,7 +22,6 @@ export const followOrUnfollow = async (tokenAccess: string, id: number, target: 
 
 export const getFollowersOrFollowing = async (tokenAccess: string, id: number, target: "following" | "followers") => {
   try {
-    console.log(tokenAccess)
     const response = await fetch(`${url}/users/${id}/${target}/`, {
       method: "GET",
       headers: {
@@ -43,4 +42,24 @@ export const getFollowersOrFollowing = async (tokenAccess: string, id: number, t
   }
 }
 
-export const get = () => { }
+export const searchUsers = async (tokenAccess: string, search: string) => {
+  try {
+    const response = await fetch(`${url}/users/search/?q=${search}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${tokenAccess}`,
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+
+      return data
+    } else
+      throw new Error("bad response")
+
+  } catch {
+    showAlert("error", "internal error")
+  }
+}
