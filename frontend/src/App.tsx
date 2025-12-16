@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 import Account from "./pages/Account.tsx"
-import Feed from "./pages/Feed.tsx"
+import FeedPage from "./pages/FeedPage.tsx"
 import Auth from './pages/Auth.tsx'
 import Login from './pages/Login.tsx'
 import Register from './pages/Register.tsx'
@@ -41,12 +41,12 @@ function App() {
         <Routes>
           <Route path='/' element={
             <ProtectedRoute>
-              <Feed followingPostsOnly={false} />
+              <FeedPage followingPostsOnly={false} />
             </ProtectedRoute>
           }></Route>
           <Route path='/following' element={
             <ProtectedRoute>
-              <Feed followingPostsOnly={true} />
+              <FeedPage followingPostsOnly={true} />
             </ProtectedRoute>
           }></Route>
           <Route path='/:username' element={

@@ -28,7 +28,7 @@ const Feed = ({ followingPostsOnly }: FeedProps) => {
       loadUser()
       getPosts()
     }
-  }, [])
+  }, [followingPostsOnly])
 
   useEffect(() => {
     const handler = () => {
