@@ -6,13 +6,17 @@ import { fetchPosts } from "../service/postService"
 import { useAuth } from "../context/AuthContext"
 import showAlert from "../components/showAlert"
 
-const ForYouFeed = () => {
+interface FeedProps {
+  followingPostsOnly: boolean,
+}
+
+const Feed = ({ followingPostsOnly }: FeedProps) => {
   const { token, loadUser } = useAuth()
   const [posts, setPosts] = useState<Post[] | null>(null)
 
   const getPosts = async () => {
     try {
-      const data = await fetchPosts(token.access)
+      const data = await fetchPosts(token.access, followingPostsOnly)
       setPosts(data)
     } catch {
       showAlert("error", "internal error")
@@ -52,4 +56,4 @@ const ForYouFeed = () => {
   )
 }
 
-export default ForYouFeed
+export default Feed

@@ -33,9 +33,9 @@ export const createPost = async (tokenAccess: string, content: string, image?: F
     showAlert("error", "could not publish")
 }
 
-export const fetchPosts = async (tokenAccess: string) => {
+export const fetchPosts = async (tokenAccess: string, following: boolean) => {
   try {
-    const response = await fetch(`${url}/posts/`, {
+    const response = await fetch(`${url}/posts${following ? "/following" : ""}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${tokenAccess}`,
