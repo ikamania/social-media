@@ -42,6 +42,21 @@ class PostViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(
+        detail=False,
+        methods=["get"],
+        permission_classes=[permissions.IsAuthenticated],
+    )
+    def following(self, request):
+        user = request.user
+
+        posts = Post.objects.filter(user__in=user.following.all()).select_related(
+            "user"
+        )
+
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
