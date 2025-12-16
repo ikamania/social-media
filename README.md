@@ -1,8 +1,6 @@
 # Social Media App
 
-A full-stack social media app built with React + Vite for the frontend and Django + SQLite3 for the backend.
-Users can create posts, comment and like, follow/unfollow others, edit their profiles, and search for users by email or username.
-Dockerized for easy setup and deployment.
+A modern social media platform built with React, Vite, and Django, designed for seamless content sharing and user interaction. Dockerized for simple setup and deployment.
 
 ---
 
